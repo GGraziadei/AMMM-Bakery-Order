@@ -15,10 +15,13 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+updated by Gianluca Graziadei, Emmanuel Onyekachukwu Irabor
+
 '''
 
 import time
-from Heuristics.logger import Logger
+from ProjectHeuristics.logger import Logger
 
 
 class _Solver(object):

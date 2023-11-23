@@ -1,64 +1,71 @@
-'''
-AMMM Lab Heuristics
-Greedy solver
-Copyright 2020 Luis Velasco.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
 
 import random, time
-from Heuristics.solver import _Solver
-from Heuristics.solvers.localSearch import LocalSearch
+from ProjectHeuristics.solver import _Solver
+from ProjectHeuristics.solvers.localSearch import LocalSearch
 
+import  copy
 
 # Inherits from the parent abstract solver.
 class Solver_Greedy(_Solver):
 
-    def _selectCandidate(self, candidateList):
-        if self.config.solver == 'Greedy':
-            # sort candidate assignments by highestLoad in ascending order
-            sortedCandidateList = sorted(candidateList, key=lambda x: x.highestLoad)
-            # choose assignment with minimum highest load
-            return sortedCandidateList[0]
-        return random.choice(candidateList)
+    def alternative_construction(self):
+        # get an empty solution for the problem
+        solution = self.instance.createSolution()
+
+        # sorting the order by descending order of profit/length
+        orderList = copy.deepcopy(self.instance.getOrders())
+        sortedOrder = sorted(orderList, key=lambda x: (x.getProfit() / x.getSurface()), reverse=True)
+
+        for order in sortedOrder:
+            # get the list of time slot where the order can be assigned
+            candidates = solution.timeslot_candidates(order)
+
+
+            # select best time slot
+            candidates = sorted(candidates, key=lambda x: solution.optimal_function(x, order.getSurface(), order.getLength()) ,reverse=True)
+            if len(candidates) > 0:
+                best_candidate = candidates.pop(0)
+
+                # accept candidate
+                solution.accept_order(order.getId(), best_candidate)
+                # update time slot capacity
+                solution.updateTimeSlotCapacity(best_candidate, order.getLength(), order.getSurface())
+
+        return solution
+
 
     def construction(self):
         # get an empty solution for the problem
         solution = self.instance.createSolution()
 
-        # get tasks and sort them by their total required resources in descending order
-        tasks = self.instance.getTasks()
-        sortedTasks = sorted(tasks, key=lambda t: t.getTotalResources(), reverse=True)
+        # sorting the order by descending order of profit/length
+        orderList =  copy.deepcopy(self.instance.getOrders())
+        sortedOrder = sorted(orderList, key=lambda x: (x.getProfit() /x.getSurface()), reverse=True)
+
+        # inizialize the time slot
+        t = 1
+
+        while t <= self.instance.getNumTimeSlot() and len(sortedOrder) > 0:
+            # compute candidate list for the given solution and time slot
+            (candidateList, prunedOrderList) = solution.candidates(sortedOrder, t)
+
+            if len(prunedOrderList)>0:
+                sortedOrder = list(filter(lambda x: x.getId() not in prunedOrderList, sortedOrder))
+
+            if len(candidateList) > 0:
+                # select best candidate
+                best_candidate = candidateList.pop(0)
+                # accept candidate
+                solution.accept_order(best_candidate.getId(), t)
+                # update time slot capacity
+                solution.updateTimeSlotCapacity(t,best_candidate.getLength(),best_candidate.getSurface())
+                # remove order from the sorted order list
+                # from filter to list
+                sortedOrder = list(filter(lambda x: x.getId() != best_candidate.getId(), sortedOrder))
 
 
-        # for each task taken in sorted order
-        for task in sortedTasks:
-            taskId = task.getId()
-
-            # compute feasible assignments
-            candidateList = solution.findFeasibleAssignments(taskId)
-
-            # no candidate assignments => no feasible assignment found
-            if not candidateList:
-                solution.makeInfeasible()
-                break
-
-            # select assignment
-            candidate = self._selectCandidate(candidateList)
-
-            # assign the current task to the CPU that resulted in a minimum highest load
-            solution.assign(taskId, candidate.cpuId)
+            else:
+                t = max(t + 1,  solution.getNextSlot(t))
 
         return solution
 
@@ -74,11 +81,14 @@ class Solver_Greedy(_Solver):
 
         self.writeLogLine(float('inf'), 0)
 
-        solution = self.construction()
+        solution = self.alternative_construction()
+
+        """
         if self.config.localSearch:
             localSearch = LocalSearch(self.config, None)
             endTime= self.startTime + self.config.maxExecTime
             solution = localSearch.solve(solution=solution, startTime=self.startTime, endTime=endTime)
+        """
 
         self.elapsedEvalTime = time.time() - self.startTime
         self.writeLogLine(solution.getFitness(), 1)

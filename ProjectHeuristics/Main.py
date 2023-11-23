@@ -25,15 +25,23 @@ from pathlib import Path
 
 import sys
 
+# input data parsing and validation
 from ProjectHeuristics.datParser import DATParser
-from AMMMGlobals import AMMMException
-from ProjectHeuristics.BRKGA_fwk.solver_BRKGA import Solver_BRKGA
 from ProjectHeuristics.ValidateInputData import ValidateInputData
 from ProjectHeuristics.ValidateConfig import ValidateConfig
+
+# problem model
+from ProjectHeuristics.problem.BakeryScheduling import BakeryScheduling
+
+
 from ProjectHeuristics.solvers.solver_Greedy import Solver_Greedy
-from ProjectHeuristics.solvers.solver_GRASP import Solver_GRASP
-from ProjectHeuristics.solvers.decoder_BRKGA import Decoder
-from ProjectHeuristics.problem.instance import Instance
+
+from AMMMGlobals import AMMMException
+
+#from ProjectHeuristics.BRKGA_fwk.solver_BRKGA import Solver_BRKGA
+#from ProjectHeuristics.solvers.solver_GRASP import Solver_GRASP
+#from ProjectHeuristics.solvers.decoder_BRKGA import Decoder
+
 
 
 class Main:
@@ -43,12 +51,15 @@ class Main:
     def run(self, data):
         try:
             if self.config.verbose: print('Creating Problem Instance...')
-            instance = Instance(self.config, data)
+            instance = BakeryScheduling(self.config, data)
             if self.config.verbose: print('Solving the Problem...')
             if instance.checkInstance():
                 initialSolution = None
                 if self.config.solver == 'Greedy' or self.config.solver == 'Random':
                     solver = Solver_Greedy(self.config, instance)
+                else:
+                    raise AMMMException('Solver %s not supported.' % str(self.config.solver))
+                """
                 elif self.config.solver == 'GRASP':
                     solver = Solver_GRASP(self.config, instance)
                 elif self.config.solver == 'BRKGA':
@@ -59,10 +70,10 @@ class Main:
                     self.config.verbose = verbose
                     decoder = Decoder(self.config, instance)
                     solver = Solver_BRKGA(decoder, instance)
-                else:
-                    raise AMMMException('Solver %s not supported.' % str(self.config.solver))
+                """
+
                 solution = solver.solve(solution=initialSolution)
-                print('Solution (CPUid: [TasksId]): %s' % str(solution.cpuIdToListTaskId))
+                print(solution.__str__())
                 solution.saveToFile(self.config.solutionFile)
             else:
                 print('Instance is infeasible.')
