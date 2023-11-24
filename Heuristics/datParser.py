@@ -53,6 +53,7 @@ class DATParser(object):
 
     @staticmethod
     def _openFile(filePath):
+        print(filePath)
         if not os.path.exists(filePath):
             raise AMMMException('The file (%s) does not exist' % filePath)
         return open(filePath, 'r')

@@ -3,7 +3,8 @@ import random, time
 from ProjectHeuristics.solver import _Solver
 from ProjectHeuristics.solvers.localSearch import LocalSearch
 
-import  copy
+import copy
+
 
 # Inherits from the parent abstract solver.
 class Solver_Greedy(_Solver):
@@ -14,15 +15,18 @@ class Solver_Greedy(_Solver):
 
         # sorting the order by descending order of profit/length
         orderList = copy.deepcopy(self.instance.getOrders())
-        sortedOrder = sorted(orderList, key=lambda x: (x.getProfit() / x.getSurface()), reverse=True)
+        sortedOrder = sorted(orderList, key=lambda x: (x.getProfit() / (x.getLength() * x.getSurface())), reverse=True)
+        # sortedOrder = sorted(orderList, key=lambda x: (x.getProfit() / x.getLength()), reverse=True)
+        # sortedOrder = sorted(orderList, key=lambda x: (x.getProfit() / x.getSurface()), reverse=True)
 
         for order in sortedOrder:
             # get the list of time slot where the order can be assigned
             candidates = solution.timeslot_candidates(order)
 
-
             # select best time slot
-            candidates = sorted(candidates, key=lambda x: solution.optimal_function(x, order.getSurface(), order.getLength()) ,reverse=True)
+            candidates = sorted(candidates,
+                                key=lambda x: solution.optimal_function(x, order.getSurface(), order.getLength()),
+                                reverse=True)
             if len(candidates) > 0:
                 best_candidate = candidates.pop(0)
 
@@ -33,23 +37,21 @@ class Solver_Greedy(_Solver):
 
         return solution
 
-
     def construction(self):
         # get an empty solution for the problem
         solution = self.instance.createSolution()
 
         # sorting the order by descending order of profit/length
-        orderList =  copy.deepcopy(self.instance.getOrders())
-        sortedOrder = sorted(orderList, key=lambda x: (x.getProfit() /x.getSurface()), reverse=True)
-
-        # inizialize the time slot
+        orderList = copy.deepcopy(self.instance.getOrders())
+        sortedOrder = sorted(orderList, key=lambda x: (x.getProfit() / (x.getLength() * x.getSurface())), reverse=True)
+        # initialize the time slot
         t = 1
 
         while t <= self.instance.getNumTimeSlot() and len(sortedOrder) > 0:
             # compute candidate list for the given solution and time slot
             (candidateList, prunedOrderList) = solution.candidates(sortedOrder, t)
 
-            if len(prunedOrderList)>0:
+            if len(prunedOrderList) > 0:
                 sortedOrder = list(filter(lambda x: x.getId() not in prunedOrderList, sortedOrder))
 
             if len(candidateList) > 0:
@@ -58,14 +60,13 @@ class Solver_Greedy(_Solver):
                 # accept candidate
                 solution.accept_order(best_candidate.getId(), t)
                 # update time slot capacity
-                solution.updateTimeSlotCapacity(t,best_candidate.getLength(),best_candidate.getSurface())
+                solution.updateTimeSlotCapacity(t, best_candidate.getLength(), best_candidate.getSurface())
                 # remove order from the sorted order list
                 # from filter to list
                 sortedOrder = list(filter(lambda x: x.getId() != best_candidate.getId(), sortedOrder))
 
-
             else:
-                t = max(t + 1,  solution.getNextSlot(t))
+                t = max(t + 1, solution.getNextSlot(t))
 
         return solution
 
@@ -96,5 +97,3 @@ class Solver_Greedy(_Solver):
         self.printPerformance()
 
         return solution
-
-

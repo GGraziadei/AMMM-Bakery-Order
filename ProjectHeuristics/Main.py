@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Updated by Gianluca Graziadei, Emmanuel Onyekachukwu Irabor
 
 """
-
+import os
 from argparse import ArgumentParser
 from pathlib import Path
 
@@ -47,6 +47,31 @@ from AMMMGlobals import AMMMException
 class Main:
     def __init__(self, config):
         self.config = config
+        self.solution = None
+
+    def runMultipleInstances(self, numInstances, instancesDirectory, fileNamePrefix, fileNameExtension):
+        totalMetric = 0
+        for i in range(numInstances):
+            instanceFileName = f"{fileNamePrefix}_{i}.{fileNameExtension}"
+            instancePath = os.path.join(instancesDirectory, instanceFileName)
+            if not os.path.exists(instancePath):
+                print(f"Instance file not found: {instancePath}")
+                continue
+
+            inputData = DATParser.parse(instancePath)
+            ValidateInputData.validate(inputData)
+
+            resultCode = self.run(inputData)
+            if resultCode == 0:
+                # Assuming the solution object has a method 'getTotalProfit' to get the desired metric
+                totalMetric += self.solution.getProfit()
+            else:
+                print(f"Error occurred in processing instance: {instancePath}")
+
+        averageMetric = totalMetric / numInstances
+        print(f"Average Metric over {numInstances} instances: {averageMetric}")
+
+        return averageMetric
 
     def run(self, data):
         try:
@@ -72,9 +97,9 @@ class Main:
                     solver = Solver_BRKGA(decoder, instance)
                 """
 
-                solution = solver.solve(solution=initialSolution)
-                print(solution.__str__())
-                solution.saveToFile(self.config.solutionFile)
+                self.solution = solver.solve(solution=initialSolution)
+                print(self.solution.__str__())
+                self.solution.saveToFile(self.config.solutionFile)
             else:
                 print('Instance is infeasible.')
                 solution = instance.createSolution()
@@ -106,4 +131,5 @@ if __name__ == '__main__':
         print('Input Data file %s' % config.inputDataFile)
 
     main = Main(config)
-    sys.exit(main.run(inputData))
+    averageMetric = main.runMultipleInstances(10, 'data', 'bakery_example', 'dat')
+    sys.exit(0)

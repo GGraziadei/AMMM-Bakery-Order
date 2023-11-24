@@ -37,6 +37,8 @@ class Order(object):
     def setLength(self, length):
         self._length = length
 
+
+
     def setMinDeliver(self, min_deliver):
         self._min_deliver = min_deliver
 

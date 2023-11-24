@@ -125,13 +125,15 @@ class BakerySchedulingSolution(_Solution):
         return candidates
 
     def optimal_function(self, t, s,length):
-        return (self._timeSlotCapacity[t-1] - s) / self._timeSlotCapacity[t-1] # t starts from 1
+        return (self._timeSlotCapacity[t-1] - s)/self._timeSlotCapacity[t-1]
+
     def __str__(self):
 
         strSolution = "Total Profit: %f\n" % self._totalProfit
         strSolution += "------------------\n"
         for timeSlotId in range(0, self._nTimeSlot):
-            strSolution += "Time Slot %d: %f\n" % (timeSlotId, self._timeSlotCapacity[timeSlotId])
+            pass
+            # strSolution += "Time Slot %d: %f\n" % (timeSlotId, self._timeSlotCapacity[timeSlotId])
 
         strSolution += "------------------\n"
 
@@ -149,14 +151,14 @@ class BakerySchedulingSolution(_Solution):
                     else:
                         strSolution += "-\t"
 
-                strSolution += "\nTaken surface: %f, profit %f\n" % (order.getSurface(), order.getProfit())
+                #strSolution += "\nTaken surface: %f, profit %f\n" % (order.getSurface(), order.getProfit())
             else:
                 # order is not accepted
                 for timeSlotId in range(1, self._nTimeSlot + 1):
                     strSolution += "-\t"
                 timeSlotStart = -1
                 timeSlotEnd = -1
-                strSolution += ("\nNot taken %s\n" %  order.__str__())
+                #strSolution += ("\nNot taken %s\n" %  order.__str__())
 
         return strSolution
 

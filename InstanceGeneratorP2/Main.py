@@ -30,6 +30,8 @@ def run():
         print("-----------------------")
         print("Reading Config file %s..." % configFile)
         config = DATParser.parse(configFile)
+        #print all the attributes
+        print(config.__dict__)
         ValidateConfig.validate(config)
         print("Creating Instances...")
         instGen = InstanceGenerator(config)

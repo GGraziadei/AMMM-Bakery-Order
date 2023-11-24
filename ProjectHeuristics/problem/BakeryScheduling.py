@@ -66,6 +66,6 @@ class BakeryScheduling(object):
 
             if order.getMinDeliver() < order.getLength():
                 print("Warning: Order %d has a min_deliver smaller than the length" % order.getId())
-                order.setMinDeliver(order.getLength())
+                #order.setMinDeliver(order.getLength())
 
         return True
