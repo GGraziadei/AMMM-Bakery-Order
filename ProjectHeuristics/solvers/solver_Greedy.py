@@ -9,7 +9,7 @@ import copy
 # Inherits from the parent abstract solver.
 class Solver_Greedy(_Solver):
 
-    def alternative_construction(self):
+    def construction(self):
         # get an empty solution for the problem
         solution = self.instance.createSolution()
 
@@ -23,20 +23,24 @@ class Solver_Greedy(_Solver):
             # get the list of time slot where the order can be assigned
             candidates = solution.timeslot_candidates(order)
 
-            # select best time slot
+            # select best time slot - minimizing the delta 'load' of a starting time slot
             candidates = sorted(candidates,
-                                key=lambda x: solution.optimal_function(x, order.getSurface(), order.getLength()),
+                                key=lambda x: x.getDelta(),
                                 reverse=True)
             if len(candidates) > 0:
                 best_candidate = candidates.pop(0)
 
                 # accept candidate
-                solution.accept_order(order.getId(), best_candidate)
+                solution.accept_order(order.getId(), best_candidate.getTimeSlot())
                 # update time slot capacity
-                solution.updateTimeSlotCapacity(best_candidate, order.getLength(), order.getSurface())
+                solution.updateTimeSlotCapacity(best_candidate.getTimeSlot(), order.getLength(), order.getSurface())
 
         return solution
 
+    """
+    Note: the following version is better iff there is an other constraint:
+        - use the minimum number of time slot
+        
     def construction(self):
         # get an empty solution for the problem
         solution = self.instance.createSolution()
@@ -69,6 +73,8 @@ class Solver_Greedy(_Solver):
                 t = max(t + 1, solution.getNextSlot(t))
 
         return solution
+    
+    """
 
     def solve(self, **kwargs):
         self.startTimeMeasure()
@@ -82,7 +88,7 @@ class Solver_Greedy(_Solver):
 
         self.writeLogLine(float('inf'), 0)
 
-        solution = self.alternative_construction()
+        solution = self.construction()
 
         """
         if self.config.localSearch:

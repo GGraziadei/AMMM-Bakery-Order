@@ -39,7 +39,7 @@ from ProjectHeuristics.solvers.solver_Greedy import Solver_Greedy
 from AMMMGlobals import AMMMException
 
 #from ProjectHeuristics.BRKGA_fwk.solver_BRKGA import Solver_BRKGA
-#from ProjectHeuristics.solvers.solver_GRASP import Solver_GRASP
+from ProjectHeuristics.solvers.solver_GRASP import Solver_GRASP
 #from ProjectHeuristics.solvers.decoder_BRKGA import Decoder
 
 
@@ -58,6 +58,7 @@ class Main:
                 print(f"Instance file not found: {instancePath}")
                 continue
 
+            print('Input Data file %s' % instancePath)
             inputData = DATParser.parse(instancePath)
             ValidateInputData.validate(inputData)
 
@@ -82,11 +83,11 @@ class Main:
                 initialSolution = None
                 if self.config.solver == 'Greedy' or self.config.solver == 'Random':
                     solver = Solver_Greedy(self.config, instance)
+                elif self.config.solver == 'GRASP':
+                    solver = Solver_GRASP(self.config, instance)
                 else:
                     raise AMMMException('Solver %s not supported.' % str(self.config.solver))
                 """
-                elif self.config.solver == 'GRASP':
-                    solver = Solver_GRASP(self.config, instance)
                 elif self.config.solver == 'BRKGA':
                     verbose = self.config.verbose
                     self.config.verbose = False
@@ -120,16 +121,22 @@ if __name__ == '__main__':
     config = DATParser.parse(args.configFile)
     ValidateConfig.validate(config)
 
-    inputData = DATParser.parse(config.inputDataFile)
-    ValidateInputData.validate(inputData)
+
 
     if config.verbose:
         print('AMMM Bakery Order')
         print('Gianluca Graziadei, Emmanuel Onyekachukwu Irabor')
         print('-------------------')
         print('Config file %s' % args.configFile)
-        print('Input Data file %s' % config.inputDataFile)
 
     main = Main(config)
-    averageMetric = main.runMultipleInstances(10, 'data', 'bakery_example', 'dat')
+
+    if config.executionType == 'Single':
+        print('Input Data file %s' % config.inputDataFile)
+        inputData = DATParser.parse(config.inputDataFile)
+        ValidateInputData.validate(inputData)
+        main.run(inputData)
+    elif config.executionType == 'Multiple':
+        main.runMultipleInstances(config.numInstances, config.instancesDirectory, config.instancesPrefix, 'dat')
+
     sys.exit(0)

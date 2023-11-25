@@ -26,7 +26,7 @@ class ValidateConfig(object):
     @staticmethod
     def validate(data):
         # Validate that mandatory input parameters were found
-        for paramName in ['inputDataFile', 'solutionFile', 'solver']:
+        for paramName in ['inputDataFile', 'solutionFile', 'solver', 'executionType']:
             if paramName not in data.__dict__:
                 raise AMMMException('Parameter/Set(%s) not contained in Configuration' % str(paramName))
 
@@ -51,6 +51,29 @@ class ValidateConfig(object):
         else:
             data.verbose = verbose
 
+        # Validate executionType
+        executionType = data.executionType
+        if len(executionType) == 0 or executionType not in ['Single', 'Multiple']:
+            raise AMMMException('Value for executionType is empty')
+
+        if executionType == 'Multiple':
+            for paramName in ['numInstances', 'instancesDirectory', 'instancesPrefix']:
+                if paramName not in data.__dict__:
+                    raise AMMMException('Parameter/Set(%s) not contained in Configuration <Multiple running enabled>' % str(paramName))
+
+            numInstances = data.numInstances
+            if not isinstance(numInstances, int) or (numInstances <= 0):
+                raise AMMMException('numInstances(%s) has to be a positive integer value.' % str(numInstances))
+
+            instancesDirectory = data.instancesDirectory
+            if len(instancesDirectory) == 0:
+                raise AMMMException('Value for instancesDirectory is empty')
+            if not os.path.exists(instancesDirectory):
+                raise AMMMException('instancesDirectory(%s) does not exist' % instancesDirectory)
+
+            instancesPrefix = data.instancesPrefix
+            if len(instancesPrefix) == 0:
+                raise AMMMException('Value for instancesPrefix is empty')
         # Validate solver and per-solver parameters
         solver = data.solver
         if solver == 'Greedy' or solver == 'Random':

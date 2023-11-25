@@ -36,9 +36,9 @@ class InstanceGenerator(object):
             instancePath = os.path.join(instancesDirectory, '%s_%d.%s' % (fileNamePrefix, i, fileNameExtension))
             with open(instancePath, 'w') as fInstance:
                 # Generate random values for each order attribute
-                profits = [random.uniform(minProfit, maxProfit) for _ in range(numOrders)]
+                profits = [random.randint(minProfit, maxProfit) for _ in range(numOrders)]
                 lengths = [random.randint(minLength, maxLength) for _ in range(numOrders)]
-                surfaces = [random.uniform(minSurface, maxSurface) for _ in range(numOrders)]
+                surfaces = [random.randint(minSurface, maxSurface) for _ in range(numOrders)]
 
                 minDelivers = [random.randint(minDeliver, timeSlots) for _ in range(numOrders)]
                 # Ensure max_deliver is always greater than or equal to min_deliver
