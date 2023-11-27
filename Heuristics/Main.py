@@ -45,8 +45,10 @@ class Main:
             if instance.checkInstance():
                 initialSolution = None
                 if self.config.solver == 'Greedy' or self.config.solver == 'Random':
+                    print('Greedy solver')
                     solver = Solver_Greedy(self.config, instance)
                 elif self.config.solver == 'GRASP':
+                    print('GRASP solver')
                     solver = Solver_GRASP(self.config, instance)
                 elif self.config.solver == 'BRKGA':
                     verbose = self.config.verbose
