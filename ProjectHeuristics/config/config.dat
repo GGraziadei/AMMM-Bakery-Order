@@ -1,8 +1,8 @@
 # --- Common specific parameters ------------------------------------------------------------------------------
 inputDataFile        = data/example.dat;        # Input DAT file - Default Single execution
 solutionFile         = solutions/example.sol;   # Output DAT file (solution)
-solver               = Greedy;                  # Supported solvers: Greedy / Random / GRASP / BRKGA
-maxExecTime          = 10;                      # Maximum execution time in seconds
+solver               = GRASP;                  # Supported solvers: Greedy / Random / GRASP / BRKGA
+maxExecTime          = 60;                      # Maximum execution time in seconds
 verbose              = True;                    # Verbose mode?
 executionType        = Single;                  # Single : Single execution / Multiple: Multiple executions
 
@@ -15,7 +15,7 @@ instancesPrefix      = bakery_example;          # Prefix of the instances f"{fil
 
 # --- GRASP constructive specific parameters ------------------------------------------------------------------
 # Ignored if solver is not GRASP.
-alpha                = 0.3;                 # Alpha parameter for the GRASP solver.
+alpha                = 0.2;                 # Alpha parameter for the GRASP solver.
 
 # --- Local Search specific parameters ------------------------------------------------------------------------
 localSearch          = True;                # Enable local search?

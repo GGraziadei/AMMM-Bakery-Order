@@ -14,7 +14,7 @@ minProfit = 1;  # Minimum profit per order
 maxProfit = 10;  # Maximum profit per order
 
 minLength = 1;  # Minimum length per order in time slots
-maxLength = 4;  # Maximum length per order in time slots
+maxLength = 24;  # Maximum length per order in time slots
 
 minSurface = 1;  # Minimum surface required per order in m2
 maxSurface = 10;  # Maximum surface required per order in m2

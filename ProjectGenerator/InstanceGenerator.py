@@ -40,22 +40,23 @@ class InstanceGenerator(object):
                 lengths = [random.randint(minLength, maxLength) for _ in range(numOrders)]
                 surfaces = [random.randint(minSurface, maxSurface) for _ in range(numOrders)]
 
-                minDelivers = [random.randint(minDeliver, timeSlots) for _ in range(numOrders)]
-                # Ensure max_deliver is always greater than or equal to min_deliver
-                maxDelivers = [random.randint(minDeliver, max(minDeliver, maxDeliver)) for minDeliver in minDelivers]
+                minDelivers = [1] * numOrders
+                maxDelivers = [1] * numOrders
+                for i in range(numOrders):
+                    l = lengths[i]
+                    m = random.randint(l, max(l, minDeliver))
+                    M = random.randint(m, max(m, maxDeliver))
+                    maxDelivers[i] = M
+                    minDelivers[i] = m
 
                 # Write the generated values to the instance file
                 fInstance.write(f'n={numOrders};\n')
                 fInstance.write(f't={timeSlots};\n')
-
-                # Write the generated values to the instance file
-                fInstance.write(f'n={numOrders};\n')
-                fInstance.write(f't={timeSlots};\n')
-                fInstance.write(f'surface_capacity={surfaceCapacity};\n')
                 fInstance.write(f'profit=[{" ".join(map(str, profits))}];\n')
                 fInstance.write(f'length=[{" ".join(map(str, lengths))}];\n')
-                fInstance.write(f'surface=[{" ".join(map(str, surfaces))}];\n')
                 fInstance.write(f'min_deliver=[{" ".join(map(str, minDelivers))}];\n')
                 fInstance.write(f'max_deliver=[{" ".join(map(str, maxDelivers))}];\n')
+                fInstance.write(f'surface=[{" ".join(map(str, surfaces))}];\n')
+                fInstance.write(f'surface_capacity={surfaceCapacity};\n')
 
         # Additional instance-specific details can be added as required
