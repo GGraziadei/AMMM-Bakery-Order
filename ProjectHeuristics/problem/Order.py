@@ -3,6 +3,7 @@ AMMM Bakery order
 Gianluca Graziadei
 """
 
+
 class Order(object):
 
     def __init__(self, order_id, profit, length, min_deliver, max_deliver, surface):
@@ -12,6 +13,7 @@ class Order(object):
         self._max_deliver = max_deliver
         self._surface = surface
         self._order_id = order_id
+        self.starting_slot = None
 
     def getId(self):
         return self._order_id
@@ -37,8 +39,6 @@ class Order(object):
     def setLength(self, length):
         self._length = length
 
-
-
     def setMinDeliver(self, min_deliver):
         self._min_deliver = min_deliver
 
@@ -49,5 +49,5 @@ class Order(object):
         self._surface = surface
 
     def __str__(self):
-        return "order_id: %d (profit: %f, length: %d, min_deliver: %d, max_deliver: %d, surface: %f)" % (self._order_id, self._profit, self._length, self._min_deliver, self._max_deliver, self._surface)
-
+        return "order_id: %d (profit: %f, length: %d, min_deliver: %d, max_deliver: %d, surface: %f)" % (
+        self._order_id, self._profit, self._length, self._min_deliver, self._max_deliver, self._surface)
