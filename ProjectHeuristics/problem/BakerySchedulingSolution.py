@@ -39,7 +39,6 @@ class BakerySchedulingSolution(_Solution):
 
     def __init__(self, orders, nTimeSlot, surface_capacity):
         self._orders = orders
-        self._solutionOrders = []
         self._nTimeSlot = nTimeSlot
         self._surface_capacity = surface_capacity
         self._timeSlotCapacity = [self._surface_capacity] * nTimeSlot
@@ -47,12 +46,15 @@ class BakerySchedulingSolution(_Solution):
         self._totalProfit = 0.0
         super().__init__()
 
-    def setSolutionOrders(self, solutionOrders):
-        self._solutionOrders = solutionOrders
-
     def getSolutionOrders(self):
-        return self._solutionOrders
+        solutionOrders = []
+        for order in self._orders:
+            if self._ordersStartingSlot[order.getId()] is not None:
+                solutionOrders.append(order)
+        return solutionOrders
 
+    def getNTimeslot(self):
+        return self._nTimeSlot
     def getOrders(self):
         return self._orders
 
@@ -80,6 +82,12 @@ class BakerySchedulingSolution(_Solution):
 
         self._ordersStartingSlot[order_id] = StartingSlot(order_id, slot_id)
 
+    def remove_order(self, order_id):
+        profit = self._orders[order_id].getProfit()
+        self._totalProfit -= profit
+
+        self._ordersStartingSlot[order_id] = None
+
     def updateTimeSlotCapacity(self, timeSlot, length, surface):
 
         timeSlotId = timeSlot - 1  # timeSlot starts from 1
@@ -94,35 +102,6 @@ class BakerySchedulingSolution(_Solution):
     def setOrders(self, orders):
         self._orders = orders
 
-    def can_add_order(self, order_id):
-        order = self._orders[order_id]
-        candidates = self.timeslot_candidates(order)
-        if len(candidates) > 0:
-            return True
-        else:
-            return False
-
-    def can_add_order_to_timeslot(self, order_id, timeSlot):
-        order = self._orders[order_id]
-        candidates = self.timeslot_candidates(order)
-        for candidate in candidates:
-            if candidate.getTimeSlot() == timeSlot:
-                return True
-        return False
-
-    def move_order(self, order_id, timeSlot):
-        order = self._orders[order_id]
-        candidates = self.timeslot_candidates(order)
-        self._ordersStartingSlot[order_id] = None
-        self._totalProfit -= order.getProfit()
-        for candidate in candidates:
-            if candidate.getTimeSlot() == timeSlot:
-                self.accept_order(order_id, timeSlot)
-                self.updateTimeSlotCapacity(timeSlot, order.getLength(), order.getSurface())
-        # remove order from previous time slot
-
-        return False
-
     def getTimeSlotAssignedToOrder(self, order_id):
         if self._ordersStartingSlot[order_id] is not None:
             return self._ordersStartingSlot[order_id].getSlotId()
@@ -132,25 +111,7 @@ class BakerySchedulingSolution(_Solution):
     def getNTimeslot(self):
         return self._nTimeSlot
 
-    # replace order1(not in solution) with order2(in solution)
-    def replace_order(self, order1, order2):
-        # remove order2 from solution
-        self._totalProfit -= order2.getProfit()
-        # update time slot capacity
-        for timeSlotId in range(self.getTimeSlotAssignedToOrder(order2.getId()),
-                                self.getTimeSlotAssignedToOrder(order2.getId()) + order2.getLength()):
-            self._timeSlotCapacity[timeSlotId - 1] -= order2.getSurface()
-        # add order1 to solution
-        self._totalProfit += order1.getProfit()
-        self._ordersStartingSlot[order1.getId()] = StartingSlot(order1.getId(), self.getTimeSlotAssignedToOrder(
-            order2.getId()))
 
-        # update time slot capacity
-        for timeSlotId in range(self.getTimeSlotAssignedToOrder(order1.getId()),
-                                self.getTimeSlotAssignedToOrder(order1.getId()) + order1.getLength()):
-            self._timeSlotCapacity[timeSlotId - 1] += order1.getSurface()
-        self._solutionOrders.append(order1)
-        self._ordersStartingSlot[order2.getId()] = None
 
     def timeSlotCapacity(self, timeSlot):
         timeSlotId = timeSlot - 1

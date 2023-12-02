@@ -80,12 +80,10 @@ class Solver_GRASP(_Solver):
 
             solution = self._greedyRandomizedConstruction(alpha)
 
-            """
             if self.config.localSearch:
                 localSearch = LocalSearch(self.config, None)
                 endTime = self.startTime + self.config.maxExecTime
                 solution = localSearch.solve(solution=solution, startTime=self.startTime, endTime=endTime)
-            """
 
             if solution.isFeasible():
                 solutionHighestProfit = solution.getProfit()

@@ -8,14 +8,17 @@ algorithms = ["Simplex", "Greedy", "Greedy + LS: First Improvement, Task Exchang
               "GRASP + LS: First Improvement, Task Exchange", "GRASP + LS: Best Improvement, Task Exchange",
               "GRASP + LS: First Improvement, Reassignment", "GRASP + LS: Best Improvement, Reassignment", "BRKGA"]
 
-objective_values = [0.772181149, 0.79944184, 0.77148949, 0.77415004, 0.79944184, 0.79944184, 0.79762095,
-                      0.77142636, 0.77423392, 0.79340563, 0.79245262, 0.77580249]
+objective_values = [0.766653211, 0.79898523, 0.76599930, 0.76604154, 0.79898523, 0.79898523, 0.79728147,
+                    0.76598787, 0.76600461, 0.79728951, 0.79733580, 0.77084606]
 
-solution_gaps = [0, 3.52, 0, 0.25, 3.52, 3.52, 3.30, 0, 0.26, 2.74, 2.60, 0.47]
+solution_gaps = [0, 4.22, -0.13, -0.07, 4.22, 4.22, 3.95, -0.16, -0.14, 3.96, 3.97, 0.74]
 
-avg_time_per_solution = [28572.900107384, 6, 414, 6004, 13, 13, 7, 428, 140, 14, 17, 6]
+avg_time_per_solution = [7301.358373642, 9, 429, 41091, 12, 15, 8, 380, 42859, 15, 15, 6.5]
+
+num_iterations = [1, 1, 1, 1, 1, 1, 73862, 1579, 14, 41181, 41247, 934]
+
+
 execution_time = [1] * len(objective_values)
-num_iterations = [1, 1, 1, 1, 1, 1, 8196, 1, 4409, 1, 3614, 960]
 
 # Calculate Execution Time
 for i in range(len(objective_values)):
@@ -42,7 +45,7 @@ ax.set_ylabel('Avg. Time/solution (ms)')
 ax.set_zlabel('Number of Iterations')
 
 # Title
-plt.title('Algorithm Performance m1')
+plt.title('Algorithm Performance m4')
 
 # Show the plot
 plt.show()

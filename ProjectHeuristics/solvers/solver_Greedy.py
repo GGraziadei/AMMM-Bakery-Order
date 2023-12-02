@@ -55,11 +55,6 @@ class Solver_Greedy(_Solver):
             if solution.getTimeSlotAssignedToOrder(order.getId()) is not None:
                 new_orders.append(order)
 
-        solution.setSolutionOrders(new_orders)
-
-        '''for order in solution.getOrders():
-            print(str(order) + " " + str(solution.getTimeSlotAssignedToOrder(order.getId())))
-'''
         if self.config.localSearch:
             localSearch = LocalSearch(self.config, self.instance)
             endTime = self.startTime + self.config.maxExecTime

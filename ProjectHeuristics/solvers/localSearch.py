@@ -17,117 +17,84 @@ class LocalSearch(_Solver):
 
         if not initialSolution.isFeasible(): return initialSolution
         self.startTime = kwargs.get('startTime', None)
-        endTime = kwargs.get('endTime', None)
 
         current_solution = initialSolution
-        improved = True
 
-        while improved and time.time() < endTime:
-            improved = False
-            best_neighbor = self.find_best_neighbor(current_solution)
+        policy = self.config.policy
 
-            if best_neighbor is not None and best_neighbor.getProfit() > current_solution.getProfit():
-                current_solution = best_neighbor
-                improved = True
+        while time.time() < (self.startTime + self.config.maxExecTime):
+
+            neighbor_solution = self.exchanging_one(current_solution, policy)
+            neighbor_solution = self.adding_one(neighbor_solution, policy)
+
+            if neighbor_solution.getProfit() > current_solution.getProfit():
+                current_solution = neighbor_solution
+            else : break #local best already found
+
+            if policy == 'FirstImprovement':
+                return current_solution
 
         return current_solution
 
-    def optimize_space(self, solution):
-        orders = solution.getSolutionOrders()
-        # remove orders that are not assigned to a time slot
-        orders = [order for order in orders if solution.getTimeSlotAssignedToOrder(order.getId()) is not None]
+    def exchanging_one(self, current_solution, policy='BestImprovement'):
 
-        # Sort orders based on their current time slots for a sequential approach
-        orders.sort(key=lambda order_: solution.getTimeSlotAssignedToOrder(order_.getId()))
+        print("Exploring neighbor, starting with solution of profit: " + str(current_solution.getProfit()))
 
-        for order in orders:
-            current_slot = solution.getTimeSlotAssignedToOrder(order.getId())
-            # Try moving the order to earlier time slots
-            for new_slot in range(1, current_slot):
-                if solution.can_add_order_to_timeslot(order.getId(), new_slot):
-                    solution.move_order(order.getId(), new_slot)
-                    break  # Break once the order is moved to avoid unnecessary checks
-
-    def find_best_neighbor(self, current_solution):
-        best_neighbor = None
-        best_profit = current_solution.getProfit()
-        # self.optimize_space(current_solution)
         sorted_orders = sorted(current_solution.getOrders(),
                                key=lambda order_: order_.getProfit() / (order_.getLength() * order_.getSurface()),
                                reverse=True)
 
         # now check all orders not in the current solution and try to add them or replace them if we get a better profit
-        if 0:
-            for order in sorted_orders:
-                if order not in current_solution.getSolutionOrders():
-                    # try to add the order to the solution
-                    candidates = current_solution.timeslot_candidates(order)
-                    candidates = sorted(candidates,
-                                        key=lambda x: x.getDelta(),
-                                        reverse=True)
+        for order1 in self.instance.getOrders():
+            if current_solution.getTimeSlotAssignedToOrder(order1.getId()) is None:
+                for order2 in current_solution.getSolutionOrders():
+                    if order1 != order2:
+                        # Check if the swap is feasible and profitable
+                        potential_profit = order1.getProfit() - order2.getProfit()
+                        surface_improving = (order1.getSurface() * order1.getLength()) - (order2.getSurface() * order2.getLength())
 
-                    if len(candidates) > 0:
-                        best_candidate = candidates.pop(0)
-                        # print("best candidate: " + str(best_candidate) + str(order))
-                        new_solution = copy.deepcopy(current_solution)
-                        new_solution.accept_order(order.getId(), best_candidate.getTimeSlot())
-                        new_solution.updateTimeSlotCapacity(best_candidate.getTimeSlot(), order.getLength(),
-                                                            order.getSurface())
+                        if potential_profit > 0 or surface_improving < 0:
+                            starting_timeslot = current_solution.getTimeSlotAssignedToOrder(order2.getId())
 
-                        if new_solution.getProfit() > best_profit:
-                            best_neighbor = new_solution
-                            best_profit = new_solution.getProfit()
+                            new_solution = copy.deepcopy(current_solution)
+                            new_solution.remove_order(order2.getId())
+                            new_solution.updateTimeSlotCapacity(starting_timeslot, order2.getLength(), -order2.getSurface())
 
-        # now we try to see if we can use orders not in the solution to replace orders in the solution
-        # to see if we can get a better profit by replacing an order with a better one
-        if 1:
-            for order1 in self.instance.getOrders():
-                best_candidate = None
-                best_profit_increase = 0
+                            afflicted_slot = range(starting_timeslot - order1.getLength() +1, starting_timeslot + order2.getLength())
+                            candidates_slot = new_solution.timeslot_candidates(order1)
 
-                if current_solution.getTimeSlotAssignedToOrder(order1.getId()) is None:
-                    for order2 in current_solution.getSolutionOrders():
-                        if order1 != order2:
-                            # Check if the swap is feasible and profitable
-                            if self.swap_is_feasible(order1, order2, current_solution):
-                                potential_profit = order1.getProfit() - order2.getProfit()
+                            for slot in candidates_slot:
+                                if slot.getTimeSlot()  in afflicted_slot:
+                                    new_solution.accept_order(order1.getId(), slot.getTimeSlot())
+                                    new_solution.updateTimeSlotCapacity(slot.getTimeSlot(), order1.getLength(), order1.getSurface())
 
-                                # Only consider swaps that increase the profit
-                                if potential_profit > 0:
-                                    print("swap is feasible: " + str(order1) + " " + str(order2))
-                                    new_solution = copy.deepcopy(current_solution)
-                                    new_solution.replace_order(order1, order2)
-                                    profit_increase = new_solution.getProfit() - current_solution.getProfit()
+                                    if current_solution.getProfit() < new_solution.getProfit():
+                                        print("Neighbor found, profit: " + str(new_solution.getProfit()))
 
-                                    # Check if this swap is better than the best one found so far
-                                    if profit_increase > best_profit_increase:
-                                        print("better solution found: " + str(new_solution.getProfit()))
-                                        best_candidate = (order1, order2, new_solution)
-                                        best_profit_increase = profit_increase
+                                        if policy == 'FirstImprovement':
+                                            print("First improvement found, profit: " + str(new_solution.getProfit()))
+                                            return new_solution
 
-                # Apply the best swap found for this order
-                if best_candidate:
-                    order1, order2, best_solution = best_candidate
-                    current_solution = best_solution
-                    best_neighbor = best_solution
-                    print("Applied swap: " + str(order1) + " with " + str(order2))
+                                        current_solution = new_solution
 
-        return best_neighbor
+        return current_solution
 
-    def swap_is_feasible(self, order1, order2, solution):
-        slot = solution.getTimeSlotAssignedToOrder(order2.getId())
-        if slot is None:
-            return False
+    def adding_one(self, current_solution, policy='BestImprovement'):
+        for order1 in self.instance.getOrders():
+            if current_solution.getTimeSlotAssignedToOrder(order1.getId()) is None:
+                candidates_slot = current_solution.timeslot_candidates(order1)
 
-        if slot + order1.getLength() > solution.getNTimeslot():
-            return False
+                for slot in candidates_slot:
+                    new_solution = copy.deepcopy(current_solution)
+                    new_solution.accept_order(order1.getId(), slot.getTimeSlot())
+                    new_solution.updateTimeSlotCapacity(slot.getTimeSlot(), order1.getLength(), order1.getSurface())
 
-        # check min and max delivery time
-        if order1.getMinDeliver() < order2.getMinDeliver() or order1.getMaxDeliver() > order2.getMaxDeliver():
-            return False
+                    if policy == 'FirstImprovement':
+                        return new_solution
 
-        for i in range(slot-1, slot + order1.getLength() - 1):
-            if (solution.getTimeSlotCapacity()[i] + order2.getSurface()) - order1.getSurface() < 0:
-                return False
+                    if new_solution.getProfit() > current_solution.getProfit():
+                        current_solution = new_solution
 
-        return True
+        return current_solution
+
+

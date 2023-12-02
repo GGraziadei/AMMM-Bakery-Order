@@ -130,14 +130,9 @@ class ValidateConfig(object):
 
         if data.localSearch:
             # Validate that mandatory input parameters for local search were found
-            for paramName in ['neighborhoodStrategy', 'policy']:
+            for paramName in ['policy']:
                 if paramName not in data.__dict__:
                     raise AMMMException('Parameter/Set(%s) not contained in Configuration. Required by Local Search.' % str(paramName))
-
-            # Validate neighborhoodStrategy
-            neighborhoodStrategy = data.neighborhoodStrategy
-            if neighborhoodStrategy not in ['Exchange', 'Reassignment']:
-                raise AMMMException('neighborhoodStrategy(%s) has to be one of [Reassignment, Exchange].' % str(neighborhoodStrategy))
 
             # Validate policy
             policy = data.policy

@@ -19,8 +19,7 @@ instancesPrefix      = bakery_example;          # Prefix of the instances f"{fil
 alpha                = 0.2;                 # Alpha parameter for the GRASP solver.
 
 # --- Local Search specific parameters ------------------------------------------------------------------------
-localSearch          = False;                # Enable local search?
-neighborhoodStrategy = Exchange;        # Supported Neighborhoods: Exchange / Reassignment
+localSearch          = True;                # Enable local search?
 policy               = BestImprovement;    # Supported Policies: FirstImprovement / BestImprovement
 
 # --- BRKGA specific parameters -------------------------------------------------------------------------------

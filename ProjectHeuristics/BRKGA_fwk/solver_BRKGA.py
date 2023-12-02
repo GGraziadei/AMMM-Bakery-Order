@@ -18,9 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import time
-from Heuristics.solver import _Solver
-from Heuristics.BRKGA_fwk.population import Population
-
+from ProjectHeuristics.solver import _Solver
+from ProjectHeuristics.BRKGA_fwk.population import Population
 
 class Solver_BRKGA(_Solver):
 
