@@ -1,8 +1,8 @@
 # --- Common specific parameters ------------------------------------------------------------------------------
-inputDataFile        = data/lab5_example_1.dat;        # Input DAT file
-solutionFile         = solutions/lab5_example1.sol;   # Output DAT file (solution)
-solver               = GRASP;                  # Supported solvers: Greedy / Random / GRASP / BRKGA
-maxExecTime          = 10;                      # Maximum execution time in seconds
+inputDataFile        = data/lab5_instances/lab5_comparing__0.dat;        # Input DAT file
+solutionFile         = solutions/lab5_comparing__0.sol;   # Output DAT file (solution)
+solver               = BRKGA;                  # Supported solvers: Greedy / Random / GRASP / BRKGA
+maxExecTime          = 60;                      # Maximum execution time in seconds
 verbose              = True;                    # Verbose mode?
 
 # --- Greedy / Random specific parameters ---------------------------------------------------------------------
@@ -13,7 +13,7 @@ verbose              = True;                    # Verbose mode?
 alpha                = 0.1;                 # Alpha parameter for the GRASP solver.
 
 # --- Local Search specific parameters ------------------------------------------------------------------------
-localSearch          = False;                # Enable local search?
+localSearch          = True;                # Enable local search?
 neighborhoodStrategy = TaskExchange;        # Supported Neighborhoods: TaskExchange
 policy               = FirstImprovement;    # Supported Policies: FirstImprovement / BestImprovement
 

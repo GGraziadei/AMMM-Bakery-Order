@@ -10,6 +10,7 @@ executionType        = Single;                  # Single : Single execution / Mu
 numInstances         = 10;                      # Number of instances to run
 instancesDirectory   = data;                    # Directory where the instances are located
 instancesPrefix      = bakery_example;          # Prefix of the instances f"{fileNamePrefix}_{i}.dat"
+
 # --- Greedy / Random specific parameters ---------------------------------------------------------------------
 # No specific parameters
 
@@ -18,9 +19,9 @@ instancesPrefix      = bakery_example;          # Prefix of the instances f"{fil
 alpha                = 0.2;                 # Alpha parameter for the GRASP solver.
 
 # --- Local Search specific parameters ------------------------------------------------------------------------
-localSearch          = True;                # Enable local search?
-neighborhoodStrategy = TaskExchange;        # Supported Neighborhoods: TaskExchange
-policy               = FirstImprovement;    # Supported Policies: FirstImprovement / BestImprovement
+localSearch          = False;                # Enable local search?
+neighborhoodStrategy = Exchange;        # Supported Neighborhoods: Exchange / Reassignment
+policy               = BestImprovement;    # Supported Policies: FirstImprovement / BestImprovement
 
 # --- BRKGA specific parameters -------------------------------------------------------------------------------
 # Ignored if solver is not BRKGA.

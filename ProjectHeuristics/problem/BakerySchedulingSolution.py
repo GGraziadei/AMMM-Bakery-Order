@@ -5,6 +5,25 @@ Gianluca Graziadei
 
 from ProjectHeuristics.solution import _Solution
 
+class Move(object):
+    def __init__(self, orderId, currTimeSlotId, newtimeSlotId):
+        self._orderId = orderId
+        self._currTimeSlotId = currTimeSlotId
+        self._newTimeSlotId = newtimeSlotId
+
+    def getOrderId(self):
+        return self._orderId
+
+    def getCurrTimeSlotId(self):
+        return self._currTimeSlotId
+
+    def getNewTimeSlotId(self):
+        return self._newTimeSlotId
+
+    def __str__(self):
+        return "order_id: %d, curr_starting_time_slot_id: %d, new_starting_time_slot_id: %d" % (self._orderId, self._currTimeSlotId, self._newTimeSlotId)
+
+
 class StartingSlot(object):
 
     def __init__(self, order_id, slot_id):
@@ -51,6 +70,9 @@ class BakerySchedulingSolution(_Solution):
                 acceptedOrders[order.getOrderId()] = True
         return acceptedOrders
 
+    def getOrders(self):
+        return self._orders
+
     #override _Solution getFitness
     def getFitness(self):
         return self._totalProfit
@@ -84,6 +106,9 @@ class BakerySchedulingSolution(_Solution):
         timeSlotId = timeSlot - 1
         return self._timeSlotCapacity[timeSlotId]
 
+    def getTimeSlotCapacity(self):
+        return self._timeSlotCapacity
+
     def _checkSurface(self, start_id, end_id, s):
         for i in range(start_id, end_id + 1):
             if self._timeSlotCapacity[i] < s:
@@ -115,7 +140,67 @@ class BakerySchedulingSolution(_Solution):
 
         return candidates
 
+    def assign(self, move: Move) -> bool:
+        order_id = move.getOrderId()
+        currTimeSlotId = move.getCurrTimeSlotId()
+        newTimeSlotId = move.getNewTimeSlotId()
 
+        order = self._orders[order_id]
+        length = order.getLength()
+        surface = order.getSurface()
+
+        # check if the order can be assigned to the new time slot
+        if length + newTimeSlotId - 1 > self._nTimeSlot:
+            return False
+
+        if not self._checkSurface(newTimeSlotId - 1, newTimeSlotId + length - 2, surface):
+            return False
+
+        # update time slot capacity
+        self.updateTimeSlotCapacity(newTimeSlotId, length, surface)
+
+        # update order starting time slot
+        self._ordersStartingSlot[order_id] = StartingSlot(order_id, newTimeSlotId)
+
+        return True
+
+    def unassign(self, move: Move) -> bool:
+        order_id = move.getOrderId()
+        currTimeSlotId = move.getCurrTimeSlotId()
+        newTimeSlotId = move.getNewTimeSlotId()
+
+        order = self._orders[order_id]
+        length = order.getLength()
+        surface = order.getSurface()
+
+        # update time slot capacity
+        self.updateTimeSlotCapacity(currTimeSlotId, length, (-1) * surface)
+
+        # update order starting time slot
+        self._ordersStartingSlot[order_id] = None
+
+        return True
+
+    def getOrdersStartingAt(self, timeSlot):
+        orders = []
+        for startingSlot in self._ordersStartingSlot:
+            if startingSlot is not None and startingSlot.getSlotId() == timeSlot:
+                orders.append(startingSlot.getOrderId())
+        return orders
+
+    def getAssignedOrders(self):
+        orders = []
+        for startingSlot in self._ordersStartingSlot:
+            if startingSlot is not None:
+                orders.append(startingSlot.getOrderId())
+        return orders
+
+    def getUnassignedOrders(self):
+        orders = []
+        for i in range(len(self._ordersStartingSlot)):
+            if self._ordersStartingSlot[i] is None:
+                orders.append(i)
+        return orders
 
     '''
        def candidates(self, orders, timeSlot):

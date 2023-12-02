@@ -124,7 +124,7 @@ class LocalSearch(_Solver):
         # For best improvement policy it does not make sense to sort the tasks since all of them must be explored.
         # However, for first improvement, we can start by the tasks assigned to the more loaded CPUs.
         if self.policy == 'BestImprovement': return assignments
-        cpus = getCPUs(S)
+        cpus = solution.cpus
         # Sort assignments by the load of the assigned CPU in descending order.
         sorted_assignments = sorted(assignments, key=lambda x: x[2], reverse=True)
         return sorted_assignments
