@@ -1,4 +1,4 @@
-Total Profit: 205.000000
+Total Profit: 212.000000
 ------------------
 Time Slot 0: 5.000000
 Time Slot 1: 2.000000
@@ -10,11 +10,11 @@ Time Slot 6: 0.000000
 Time Slot 7: 0.000000
 Time Slot 8: 0.000000
 Time Slot 9: 2.000000
-Time Slot 10: 4.000000
-Time Slot 11: 4.000000
-Time Slot 12: 1.000000
-Time Slot 13: 1.000000
-Time Slot 14: 1.000000
+Time Slot 10: 5.000000
+Time Slot 11: 5.000000
+Time Slot 12: 2.000000
+Time Slot 13: 2.000000
+Time Slot 14: 6.000000
 Time Slot 15: 2.000000
 Time Slot 16: 1.000000
 Time Slot 17: 5.000000
@@ -43,10 +43,10 @@ Time Slot 39: 8.000000
 Time Slot 40: 8.000000
 Time Slot 41: 8.000000
 Time Slot 42: 8.000000
-Time Slot 43: 14.000000
-Time Slot 44: 14.000000
-Time Slot 45: 14.000000
-Time Slot 46: 8.000000
+Time Slot 43: 22.000000
+Time Slot 44: 22.000000
+Time Slot 45: 22.000000
+Time Slot 46: 18.000000
 Time Slot 47: 8.000000
 Time Slot 48: 8.000000
 Time Slot 49: 16.000000
@@ -60,8 +60,9 @@ Taken surface: 7.000000, profit 6.000000
 Order 2		-	-	-	-	-	-	-	x	x	x	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 Taken surface: 9.000000, profit 4.000000
  at time slot 8
-Order 3		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-Not taken order_id: 3 (profit: 7.000000, length: 4, min_deliver: 12, max_deliver: 37, surface: 10.000000)
+Order 3		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	x	x	x	x	-	-	-	
+Taken surface: 10.000000, profit 7.000000
+ at time slot 44
 Order 4		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 Not taken order_id: 4 (profit: 2.000000, length: 5, min_deliver: 9, max_deliver: 38, surface: 8.000000)
 Order 5		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	x	x	x	x	x	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
@@ -70,9 +71,8 @@ Taken surface: 3.000000, profit 7.000000
 Order 6		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	x	x	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 Taken surface: 5.000000, profit 5.000000
  at time slot 22
-Order 7		-	-	-	-	-	-	-	-	-	-	x	x	x	x	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-Taken surface: 4.000000, profit 1.000000
- at time slot 11
+Order 7		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+Not taken order_id: 7 (profit: 1.000000, length: 4, min_deliver: 4, max_deliver: 35, surface: 4.000000)
 Order 8		-	x	x	x	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 Taken surface: 3.000000, profit 8.000000
  at time slot 2
@@ -121,8 +121,9 @@ Taken surface: 8.000000, profit 5.000000
 Order 23		-	-	-	-	-	x	x	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 Taken surface: 10.000000, profit 9.000000
  at time slot 6
-Order 24		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-Not taken order_id: 24 (profit: 2.000000, length: 5, min_deliver: 5, max_deliver: 30, surface: 5.000000)
+Order 24		-	-	-	-	-	-	-	-	-	-	x	x	x	x	x	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+Taken surface: 5.000000, profit 2.000000
+ at time slot 11
 Order 25		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	x	x	x	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 Taken surface: 6.000000, profit 3.000000
  at time slot 18
@@ -132,9 +133,8 @@ Taken surface: 8.000000, profit 9.000000
 Order 27		-	-	-	-	-	-	-	-	-	x	x	x	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 Taken surface: 2.000000, profit 10.000000
  at time slot 10
-Order 28		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	x	x	x	-	-	-	-	
-Taken surface: 2.000000, profit 1.000000
- at time slot 44
+Order 28		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+Not taken order_id: 28 (profit: 1.000000, length: 3, min_deliver: 5, max_deliver: 50, surface: 2.000000)
 Order 29		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 Not taken order_id: 29 (profit: 1.000000, length: 5, min_deliver: 6, max_deliver: 36, surface: 6.000000)
 Order 30		-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	x	x	x	-	

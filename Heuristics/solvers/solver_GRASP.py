@@ -94,7 +94,13 @@ class Solver_GRASP(_Solver):
             # force first iteration as a Greedy execution (alpha == 0)
             alpha = 0 if iteration == 1 else self.config.alpha
 
+            new_orders = []
             solution = self._greedyRandomizedConstruction(alpha)
+            for order in solution.getOrders():
+                if solution.getTimeSlotAssignedToOrder(order.getId()) is not None:
+                    new_orders.append(order)
+
+            solution.setSolutionOrders(new_orders)
             if self.config.localSearch:
                 localSearch = LocalSearch(self.config, None)
                 endTime = self.startTime + self.config.maxExecTime
