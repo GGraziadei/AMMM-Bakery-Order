@@ -18,11 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from AMMMGlobals import AMMMException
-from Heuristics.BRKGA_fwk.decoder import _Decoder
+from ProjectHeuristics.BRKGA_fwk.decoder import _Decoder
 
 class Decoder(_Decoder):
     def __init__(self, config, instance):
-        config.__dict__['numGenes'] = int(instance.getNumTasks())
+        config.__dict__['numGenes'] = int(instance.getNumOrder())
         config.__dict__['numIndividuals'] = int(config.IndividualsMultiplier * config.numGenes)
         config.__dict__['numElite'] = int(config.eliteProp * config.numIndividuals)
         config.__dict__['numMutants'] = int(config.mutantProp * config.numIndividuals)
@@ -33,41 +33,43 @@ class Decoder(_Decoder):
         if not candidateList: return None
 
         # sort candidate assignments by highestLoad in ascending order
-        sortedCandidateList = sorted(candidateList, key=lambda x: x.highestLoad)
+        sortedCandidateList = sorted(candidateList,
+                                     key=lambda x: x.getDelta(),
+                                     reverse=True)
 
         # choose assignment with minimum highest load
         return sortedCandidateList[0]
 
     def decodeIndividual(self, chromosome):
 
-        if len(chromosome) != self.instance.getNumTasks():
-            raise AMMMException("Error: the length of the chromosome does not fits the number of tasks")
+        if len(chromosome) != self.instance.getNumOrder():
+            raise AMMMException("Error: the length of the chromosome does not fits the number of orders")
 
         # get an empty solution for the problem
         solution = self.instance.createSolution()
 
-        # get tasks and sort them by their total required resources in descending order
-        tasks = self.instance.getTasks()
-        for tId in range(len(tasks)):
-            tasks[tId].gene = chromosome[tId]
-        sortedTasks = sorted(tasks, key=lambda t: t.getWeightedResources(), reverse=True)
+        orders = self.instance.getOrders()
+        for order in orders:
+            order.setGene(chromosome[order.getId()])
 
-        # for each task taken in sorted order
-        for task in sortedTasks:
-            taskId = task.getId()
+        sortedOrders = sorted(orders,
+                              key=lambda o: o.getWeightedProfitability(),
+                              reverse=True)
 
-            # compute feasible assignments
-            candidateList = solution.findFeasibleAssignments(taskId)
+        for order in sortedOrders:
+            # get the list of time slot where the order can be assigned
+            candidates = solution.timeslot_candidates(order)
 
-            # no candidate assignments => no feasible assignment found
-            if not candidateList:
-                solution.makeInfeasible()
-                break
+            # select best time slot - minimizing the delta 'load' of a starting time slot
+            candidates = sorted(candidates,
+                                key=lambda x: x.getDelta(),
+                                reverse=True)
+            if len(candidates) > 0:
+                best_candidate = candidates.pop(0)
 
-            # select the best assignment
-            bestCandidate = self.selectCandidate(candidateList)
+                # accept candidate
+                solution.accept_order(order.getId(), best_candidate.getTimeSlot())
+                # update time slot capacity
+                solution.updateTimeSlotCapacity(best_candidate.getTimeSlot(), order.getLength(), order.getSurface())
 
-            # assign the current task to the CPU that resulted in a minimum highest load
-            solution.assign(task.getId(), bestCandidate.cpuId)
-
-        return solution, solution.getFitness()
+        return solution, solution.getProfit()

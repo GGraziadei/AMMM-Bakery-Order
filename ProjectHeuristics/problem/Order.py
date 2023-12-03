@@ -14,6 +14,15 @@ class Order(object):
         self._surface = surface
         self._order_id = order_id
         self.starting_slot = None
+        self._gene = order_id
+
+    def getGene(self):
+        return self._gene
+
+    def setGene(self, gene):
+        self._gene = gene
+    def getWeightedProfitability(self):
+        return  (self._profit * self._gene) / (self._length * self._surface)
 
     def getId(self):
         return self._order_id

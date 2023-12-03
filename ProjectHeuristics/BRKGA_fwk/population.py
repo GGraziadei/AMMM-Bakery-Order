@@ -48,7 +48,7 @@ class Population(object):
         self.currentGeneration[idx] = individual
 
     def classifyIndividuals(self):
-        orderedGeneration = sorted(self.currentGeneration, key=lambda x: x['fitness'])
+        orderedGeneration = sorted(self.currentGeneration, key=lambda x: x['fitness'], reverse=True)
         elites=orderedGeneration[0:self.config.numElite]
         nonElites=orderedGeneration[self.config.numElite:len(self.currentGeneration)]
         return elites, nonElites

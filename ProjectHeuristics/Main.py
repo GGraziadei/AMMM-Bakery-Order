@@ -33,14 +33,13 @@ from ProjectHeuristics.ValidateConfig import ValidateConfig
 # problem model
 from ProjectHeuristics.problem.BakeryScheduling import BakeryScheduling
 
-
 from ProjectHeuristics.solvers.solver_Greedy import Solver_Greedy
 
 from AMMMGlobals import AMMMException
 
-#from ProjectHeuristics.BRKGA_fwk.solver_BRKGA import Solver_BRKGA
+from ProjectHeuristics.BRKGA_fwk.solver_BRKGA import Solver_BRKGA
 from ProjectHeuristics.solvers.solver_GRASP import Solver_GRASP
-#from ProjectHeuristics.solvers.decoder_BRKGA import Decoder
+from ProjectHeuristics.solvers.decoder_BRKGA import Decoder
 
 
 
@@ -85,9 +84,6 @@ class Main:
                     solver = Solver_Greedy(self.config, instance)
                 elif self.config.solver == 'GRASP':
                     solver = Solver_GRASP(self.config, instance)
-                else:
-                    raise AMMMException('Solver %s not supported.' % str(self.config.solver))
-                """
                 elif self.config.solver == 'BRKGA':
                     verbose = self.config.verbose
                     self.config.verbose = False
@@ -96,7 +92,8 @@ class Main:
                     self.config.verbose = verbose
                     decoder = Decoder(self.config, instance)
                     solver = Solver_BRKGA(decoder, instance)
-                """
+                else:
+                    raise AMMMException('Solver %s not supported.' % str(self.config.solver))
 
                 self.solution = solver.solve(solution=initialSolution)
                 print(self.solution.__str__())

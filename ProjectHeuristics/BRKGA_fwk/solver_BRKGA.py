@@ -53,7 +53,7 @@ class Solver_BRKGA(_Solver):
             generation += 1
             bestIndividual, numDecoded = self.decoder.decode(self.population.getGeneration())
             individualsDecoded += numDecoded
-            if incumbent['fitness'] > bestIndividual['fitness']:
+            if incumbent['fitness'] < bestIndividual['fitness']:
                 incumbent = bestIndividual
                 self.writeLogLine(incumbent['fitness'], generation)
             if self.stopCriteria(): break;
