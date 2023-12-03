@@ -24,6 +24,7 @@ class LocalSearch(_Solver):
 
         while time.time() < (self.startTime + self.config.maxExecTime):
 
+            # exchangingTwo: remove one order and add another two orders
             neighbor_solution = self.exchanging_two(current_solution, policy)
 
             if neighbor_solution.getProfit() > current_solution.getProfit():
@@ -62,11 +63,14 @@ class LocalSearch(_Solver):
 
                             afflicted_slot = range(starting_timeslot - order1.getLength() +1, starting_timeslot + order2.getLength())
                             candidates_slot = new_solution.timeslot_candidates(order1)
-
                             if not candidates_slot: continue
 
-                            slot = candidates_slot.pop(0)
+                            candidates_slot = sorted(candidates_slot,
+                                                        key=lambda x: x.getDelta(),
+                                                        reverse=True)
+                            # O(O^2 * T*log(T))
 
+                            slot = candidates_slot.pop(0)
                             if slot.getTimeSlot() in afflicted_slot:
                                 new_solution.accept_order(order1.getId(), slot.getTimeSlot())
                                 new_solution.updateTimeSlotCapacity(slot.getTimeSlot(), order1.getLength(), order1.getSurface())
@@ -79,23 +83,20 @@ class LocalSearch(_Solver):
                                         return new_solution
 
                                     current_solution = new_solution
-
-
-
         return current_solution
 
     def adding_one(self, current_solution, policy='BestImprovement'):
         for order1 in current_solution.getOrders():
             if current_solution.getTimeSlotAssignedToOrder(order1.getId()) is None:
                 candidates_slot = current_solution.timeslot_candidates(order1)
-
-                for slot in candidates_slot:
+                candidates_slot = sorted(candidates_slot,
+                                            key=lambda x: x.getDelta(),
+                                            reverse=True)
+                if candidates_slot:
+                    slot = candidates_slot.pop(0)
                     new_solution = copy.deepcopy(current_solution)
                     new_solution.accept_order(order1.getId(), slot.getTimeSlot())
                     new_solution.updateTimeSlotCapacity(slot.getTimeSlot(), order1.getLength(), order1.getSurface())
-
-                    if policy == 'FirstImprovement':
-                        return new_solution
 
                     if new_solution.getProfit() > current_solution.getProfit():
                         current_solution = new_solution
@@ -104,7 +105,8 @@ class LocalSearch(_Solver):
 
     def exchanging_two(self, current_solution, policy='BestImprovement'):
         neighbor_solution = self.exchanging_one(current_solution, policy)
-        return self.adding_one(neighbor_solution, policy)
+        neighbor_solution = self.adding_one(neighbor_solution, policy)
+        return neighbor_solution
 
 
 

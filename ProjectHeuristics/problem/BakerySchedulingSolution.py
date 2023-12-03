@@ -155,7 +155,7 @@ class BakerySchedulingSolution(_Solution):
     def __str__(self):
 
         strSolution = "Total Profit: %f\n" % self._totalProfit
-        strSolution += "------------------\n"
+        strSolution += "------------------\nAvailable Capacity:\n"
         for timeSlotId in range(0, self._nTimeSlot):
             strSolution += "Time Slot %d: %f\n" % (timeSlotId, self._timeSlotCapacity[timeSlotId])
 
@@ -180,8 +180,7 @@ class BakerySchedulingSolution(_Solution):
                 # order is not accepted
                 for timeSlotId in range(1, self._nTimeSlot + 1):
                     strSolution += "-\t"
-                timeSlotStart = -1
-                timeSlotEnd = -1
+
                 strSolution += ("\nNot taken %s\n" %  order.__str__())
 
         return strSolution
