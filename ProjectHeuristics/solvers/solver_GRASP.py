@@ -15,15 +15,15 @@ class Solver_GRASP(_Solver):
                             reverse=True)
 
         # compute boundary highest load as a function of the minimum and maximum highest loads and the alpha parameter
-        minHLoad = candidates[0].getDelta()
-        maxHLoad = candidates[-1].getDelta()
+        qmax = candidates[0].getDelta()
+        qmin = candidates[-1].getDelta()
 
-        boundaryHLoad = minHLoad + (maxHLoad - minHLoad) * alpha
+        bound = qmax - (qmax - qmin) * alpha
         
         # find elements that fall into the RCL
         maxIndex = 0
         for candidate in candidates:
-            if candidate.getDelta() <= boundaryHLoad:
+            if candidate.getDelta() >= bound:
                 maxIndex += 1
 
         # create RCL and pick an element randomly

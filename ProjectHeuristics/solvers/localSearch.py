@@ -38,7 +38,7 @@ class LocalSearch(_Solver):
 
     def exchanging_one(self, current_solution, policy='BestImprovement'):
 
-        print("Exploring neighbor, starting with solution of profit: " + str(current_solution.getProfit()))
+        # print("Exploring neighbor, starting with solution of profit: " + str(current_solution.getProfit()))
 
         sorted_orders = sorted(current_solution.getOrders(),
                                key=lambda order_: order_.getProfit() / (order_.getLength() * order_.getSurface()),
