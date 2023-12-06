@@ -1,5 +1,5 @@
 # --- Common specific parameters ------------------------------------------------------------------------------
-inputDataFile        = data/bakery_example_0.dat;        # Input DAT file - Default Single execution
+inputDataFile        = data/project.6.dat;        # Input DAT file - Default Single execution
 solutionFile         = solutions/exampleL.sol;   # Output DAT file (solution)
 solver               = Greedy;                  # Supported solvers: Greedy / GRASP / BRKGA
 maxExecTime          = 60;                      # Maximum execution time in seconds
