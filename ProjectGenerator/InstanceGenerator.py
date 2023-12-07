@@ -49,7 +49,11 @@ class InstanceGenerator(object):
                     maxDelivers[i] = M
                     minDelivers[i] = m
 
+                #size = 3 ∗ n2 ∗ t + n ∗ t2
+                instance_size = 3 * (numOrders**2) * timeSlots + numOrders * (timeSlots**2)
+
                 # Write the generated values to the instance file
+                fInstance.write(f'/*instance size {instance_size}*/ \n')
                 fInstance.write(f'n={numOrders};\n')
                 fInstance.write(f't={timeSlots};\n')
                 fInstance.write(f'profit=[{" ".join(map(str, profits))}];\n')

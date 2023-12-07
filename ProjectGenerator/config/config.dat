@@ -1,25 +1,24 @@
-# file name: ../AMMMLabHeuristics/data/instance_XX.dat
-instancesDirectory = ../ProjectHeuristics/data;
-fileNamePrefix = bakery_example_BRKGA;
+instancesDirectory = ../ProjectHeuristics/data/benchmark;
+fileNamePrefix = e;
 fileNameExtension = dat;
-numInstances = 10;
+numInstances = 1;
 
 # Bakery-specific settings
-numOrders = 100;  # Number of orders
-timeSlots = 10;  # Number of time slots in a day
-surfaceCapacity = 15;  # Total surface capacity of the oven
+numOrders = 232;  # Number of orders
+timeSlots = 288;  # Number of time slots in a day
+surfaceCapacity = 16;  # Total surface capacity of the oven
 
 # Separate max and min values for order attributes
 minProfit = 1;  # Minimum profit per order
 maxProfit = 50;  # Maximum profit per order
 
 minLength = 1;  # Minimum length per order in time slots
-maxLength = 10;  # Maximum length per order in time slots
+maxLength = 58;  # Maximum length per order in time slots
 
-minSurface = 3;  # Minimum surface required per order in m2
-maxSurface = 15;  # Maximum surface required per order in m2
+minSurface = 1;  # Minimum surface required per order in m2
+maxSurface = 16;  # Maximum surface required per order in m2
 
 # Delivery time settings
 # Assuming delivery time should be within the timeSlots range
 minDeliver = 1;  # Minimum delivery time slot
-maxDeliver = 10;  # Maximum delivery time slot (same as total time slots)
+maxDeliver = 288;  # Maximum delivery time slot (same as total time slots)
