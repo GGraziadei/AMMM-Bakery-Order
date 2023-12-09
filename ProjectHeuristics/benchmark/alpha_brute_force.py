@@ -37,7 +37,7 @@ class Main:
                             print(f'ALPHA {alpha} execution {i}')
                             solver = Solver_GRASP(self.config, instance)
                             solution = solver.solve(solution=initialSolution)
-                            print('Solution (CPUid: [TasksId]): %s' % str(solution.cpuIdToListTaskId))
+                            # print('Solution Orders: %s' % str(solution.getOrders()))
                             writeStr = f'ALPHA {alpha} execution {i} fitness: {solution.getFitness()}\n\n'
                             f.write(writeStr)
                             fitness += solution.getFitness()

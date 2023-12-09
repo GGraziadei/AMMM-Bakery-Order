@@ -1,39 +1,37 @@
+import sys
 from argparse import ArgumentParser
 from pathlib import Path
 
-import sys
-
-from ProjectHeuristics.datParser import DATParser
 from AMMMGlobals import AMMMException
-from ProjectHeuristics.BRKGA_fwk.solver_BRKGA import Solver_BRKGA
 from ProjectHeuristics.ValidateInputData import ValidateInputData
-from ProjectHeuristics.ValidateConfig import ValidateConfig
-from ProjectHeuristics.solvers.solver_Greedy import Solver_Greedy
-from ProjectHeuristics.solvers.solver_GRASP import Solver_GRASP
-from ProjectHeuristics.solvers.decoder_BRKGA import Decoder
+from ProjectHeuristics.datParser import DATParser
 from ProjectHeuristics.problem.BakeryScheduling import BakeryScheduling as Instance
+from ProjectHeuristics.solvers.solver_GRASP import Solver_GRASP
+from ProjectHeuristics.solvers.solver_Greedy import Solver_Greedy
 
 
 class Main:
     def __init__(self, config):
         self.config = config
 
-    def run(self, data):
+    def run(self, data, i):
         try:
             if self.config.verbose: print('Creating Problem Instance...')
             instance = Instance(self.config, data)
             if self.config.verbose: print('Solving the Problem...')
             if instance.checkInstance():
-                file_name = f'solutions/lab5_instances/{self.config.instanceNum}.sol'
+                print('Instance is feasible.')
+                file_name = f'solutions/{self.config.instanceNum}.sol'
                 log_file = open(file_name, 'w')
 
-                sys.stdout = log_file
+                #sys.stdout = log_file
                 initialSolution = None
 
                 print('\n\n-------------------')
                 print('Greedy ')
                 self.config.solver = 'Greedy'
                 self.config.localSearch = False
+                self.config.solutionFile = f'solutions/Greedy_{self.config.instanceNum}.sol'
                 solver = Solver_Greedy(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
@@ -42,6 +40,7 @@ class Main:
                 self.config.solver = 'Greedy'
                 self.config.localSearch = True
                 self.config.policy = 'FirstImprovement'
+                self.config.solutionFile = f'solutions/Greedy_LS_first_{self.config.instanceNum}.sol'
                 solver = Solver_Greedy(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
@@ -50,14 +49,30 @@ class Main:
                 self.config.solver = 'Greedy'
                 self.config.localSearch = True
                 self.config.policy = 'BestImprovement'
+                self.config.solutionFile = f'solutions/Greedy_LS_best_{self.config.instanceNum}.sol'
                 solver = Solver_Greedy(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
+
+                print('\n\n-------------------')
+                for alpha in np.arange(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1):
+                    self.config.alpha = alpha
+                    fitness = 0.
+                    for i in range(3):
+                        print(f'ALPHA {alpha} execution {i}')
+                        solver = Solver_GRASP(self.config, instance)
+                        solution = solver.solve(solution=initialSolution)
+                        print('Solution (CPUid: [TasksId]): %s' % str(solution.getOrders()))
+                        writeStr = f'ALPHA {alpha} execution {i} fitness: {solution.getFitness()}\n\n'
+                        f.write(writeStr)
+                        fitness += solution.getFitness()
                 # GRASP
                 print('\n\n-------------------')
                 print('GRASP alpha=0.1 ')
                 self.config.solver = 'GRASP'
                 self.config.localSearch = False
+                self.config.alpha = 0.1
+                self.config.solutionFile = f'solutions/GRASP_01_{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
@@ -66,6 +81,8 @@ class Main:
                 self.config.solver = 'Greedy'
                 self.config.localSearch = True
                 self.config.policy = 'FirstImprovement'
+                self.config.alpha = 0.1
+                self.config.solutionFile = f'solutions/GRASP_01_LS_first_{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
@@ -74,17 +91,11 @@ class Main:
                 self.config.solver = 'Greedy'
                 self.config.localSearch = True
                 self.config.policy = 'BestImprovement'
+                self.config.alpha = 0.1
+                self.config.solutionFile = f'solutions/GRASP_01_LS_best_{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
-
-                print('\n\n-------------------')
-                print('BRKGA - best configuration')
-                self.config.solver = 'GRASP'
-                self.config.maxExecTime = 60 * 10
-                decoder = Decoder(self.config, instance)
-                solver = Solver_BRKGA(decoder, instance)
-                solution = solver.solve(solution=initialSolution)
 
             else:
                 print('Instance is infeasible.')
@@ -104,13 +115,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     config = DATParser.parse(args.configFile)
-    ValidateConfig.validate(config)
+    print(config.maxExecTime)
+    #ValidateConfig.validate(config)
 
     for i in range(5):
-        file_name = '../data/lab5_instances/lab5_comparing__'+str(i)+'.dat'
+        file_name = 'data/benchmark/data_'+str(i+1)+'.dat'
         config.inputDataFile = file_name
         config.instanceNum = i
         inputData = DATParser.parse(config.inputDataFile)
         ValidateInputData.validate(inputData)
         main = Main(config)
-        main.run(inputData)
+        main.run(inputData, i)

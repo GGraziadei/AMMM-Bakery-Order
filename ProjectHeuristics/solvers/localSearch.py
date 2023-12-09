@@ -76,10 +76,10 @@ class LocalSearch(_Solver):
                                 new_solution.updateTimeSlotCapacity(slot.getTimeSlot(), order1.getLength(), order1.getSurface())
 
                                 if current_solution.getProfit() < new_solution.getProfit():
-                                    print("Neighbor found, profit: " + str(new_solution.getProfit()))
+                                    #print("Neighbor found, profit: " + str(new_solution.getProfit()))
 
                                     if policy == 'FirstImprovement':
-                                        print("First improvement found, profit: " + str(new_solution.getProfit()))
+                                        #print("First improvement found, profit: " + str(new_solution.getProfit()))
                                         return new_solution
 
                                     current_solution = new_solution
