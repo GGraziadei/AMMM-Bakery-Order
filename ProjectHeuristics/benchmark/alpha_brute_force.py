@@ -24,12 +24,10 @@ class Main:
             if self.config.verbose: print('Solving the Problem...')
             if instance.checkInstance():
                 initialSolution = None
-                if self.config.solver == 'Greedy' or self.config.solver == 'Random':
-                    print('Greedy solver')
-                    solver = Solver_Greedy(self.config, instance)
-                elif self.config.solver == 'GRASP':
+
+                if self.config.solver == 'GRASP':
                     print('GRASP solver')
-                    f = open(self.config.solutionFile, 'a')
+                    f = open(self.config.solutionFile, 'w')
                     for  alpha in np.arange(0,1,0.1):
                         self.config.alpha = alpha
                         fitness = 0.
@@ -45,14 +43,7 @@ class Main:
                         writeStr = f'\t\tALPHA {alpha}  avg_fitness: {fitness}\n\n'
                         f.write(writeStr)
                     f.close()
-                elif self.config.solver == 'BRKGA':
-                    verbose = self.config.verbose
-                    self.config.verbose = False
-                    greedy = Solver_Greedy(self.config, instance)
-                    initialSolution = greedy.solve(solver='Greedy', localSearch=False)
-                    self.config.verbose = verbose
-                    decoder = Decoder(self.config, instance)
-                    solver = Solver_BRKGA(decoder, instance)
+
                 else:
                     raise AMMMException('Solver %s not supported.' % str(self.config.solver))
 

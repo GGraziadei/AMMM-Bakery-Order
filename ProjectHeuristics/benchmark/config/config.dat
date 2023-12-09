@@ -1,6 +1,6 @@
 # --- Common specific parameters ------------------------------------------------------------------------------
 inputDataFile        = data/benchmark/data_5.dat;        # Input DAT file - Default Single execution
-solutionFile         = solutions/example5.sol;   # Output DAT file (solution)
+solutionFile         = solutions/alpha_brute_force/data5.sol;   # Output DAT file (solution)
 solver               = GRASP;                  # Supported solvers: Greedy / GRASP / BRKGA
 maxExecTime          = 120;                      # Maximum execution time in seconds
 verbose              = True;                    # Verbose mode?
