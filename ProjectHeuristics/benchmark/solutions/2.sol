@@ -4,11 +4,11 @@
 Greedy 
 Elap. Time (s)   Obj. Value     Iterations
     0.00000000          inf              0
-    0.01210117   1025.00000000              1
+    0.00780320   1025.00000000              1
 Evaluation Performance:
   Num. solutions constructed 1
-  Total Eval. Time      0.012101173400878906 s
-  Avg. Time / solution 12.101173400878906 ms
+  Total Eval. Time      0.007803201675415039 s
+  Avg. Time / solution 7.803201675415039 ms
 
 
 -------------------
@@ -16,11 +16,11 @@ Greedy LS : firstImprovement
 Elap. Time (s)   Obj. Value     Iterations
     0.00000000          inf              0
 Elap. Time (s)   Obj. Value     Iterations
-    0.29634309   1028.00000000              1
+    0.11915565   1028.00000000              1
 Evaluation Performance:
   Num. solutions constructed 1
-  Total Eval. Time      0.2963430881500244 s
-  Avg. Time / solution 296.3430881500244 ms
+  Total Eval. Time      0.1191556453704834 s
+  Avg. Time / solution 119.1556453704834 ms
 
 
 -------------------
@@ -28,60 +28,46 @@ Greedy LS : BestImprovement
 Elap. Time (s)   Obj. Value     Iterations
     0.00000000          inf              0
 Elap. Time (s)   Obj. Value     Iterations
-   11.36045909   1053.00000000              1
+    3.41448617   1053.00000000              1
 Evaluation Performance:
   Num. solutions constructed 1
-  Total Eval. Time      11.360459089279175 s
-  Avg. Time / solution 11360.459089279175 ms
+  Total Eval. Time      3.4144861698150635 s
+  Avg. Time / solution 3414.4861698150635 ms
 
 
 -------------------
 GRASP alpha=0.1 
 Elap. Time (s)   Obj. Value     Iterations
     0.00000000   0.00000000              0
-    0.03132987   995.00000000              1
-    0.07764125   1010.00000000              3
-    0.13824940   1032.00000000              5
-    0.31486511   1054.00000000             14
-   14.92694664   1055.00000000            755
-   26.07291722   1071.00000000           1336
-   91.21441865   1075.00000000           4723
-  120.01614118   1075.00000000           6228
+    0.00488830   1032.00000000              1
+    0.25292110   1040.00000000             42
+    0.55484581   1056.00000000             85
+    5.57450700   1065.00000000            897
+   10.00477338   1065.00000000           1597
 Evaluation Performance:
-  Num. solutions constructed 6228
-  Total Eval. Time      120.01614117622375 s
-  Avg. Time / solution 19.270414447049415 ms
+  Num. solutions constructed 1597
+  Total Eval. Time      10.004773378372192 s
+  Avg. Time / solution 6.264729729725857 ms
 
 
 -------------------
 GRASP alpha=0.1 LS : firstImprovement
 Elap. Time (s)   Obj. Value     Iterations
     0.00000000   0.00000000              0
-    0.58509755   1020.00000000              1
-    4.53782654   1021.00000000              3
-    7.03153825   1022.00000000              7
-    7.24667525   1036.00000000              8
-   20.00835776   1060.00000000             21
-  120.32688999   1060.00000000            138
+    0.08649802   997.00000000              1
+    1.33824062   1007.00000000              3
+    1.36391330   1024.00000000              4
+    1.48543191   1051.00000000              5
+    3.20448089   1060.00000000             14
+   10.04016042   1060.00000000             40
 Evaluation Performance:
-  Num. solutions constructed 138
-  Total Eval. Time      120.32688999176025 s
-  Avg. Time / solution 871.933985447538 ms
+  Num. solutions constructed 40
+  Total Eval. Time      10.040160417556763 s
+  Avg. Time / solution 251.00401043891907 ms
 
 
 -------------------
 GRASP alpha=0.1 LS : BestImprovement
 Elap. Time (s)   Obj. Value     Iterations
     0.00000000   0.00000000              0
-    9.79508758   1019.00000000              1
-   19.56573343   1021.00000000              3
-   28.77181983   1064.00000000              4
-   38.73406124   1078.00000000              5
-  272.13709402   1078.00000000             13
-Evaluation Performance:
-  Num. solutions constructed 13
-  Total Eval. Time      272.1370940208435 s
-  Avg. Time / solution 20933.622616987963 ms
-Creating Problem Instance...
-Solving the Problem...
-Instance is feasible.
+    2.30761647   1021.00000000              1

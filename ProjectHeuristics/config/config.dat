@@ -2,7 +2,7 @@
 inputDataFile        = data/benchmark/data_1.dat;        # Input DAT file - Default Single execution
 solutionFile         = solutions/exampleL.sol;   # Output DAT file (solution)
 solver               = Greedy;                  # Supported solvers: Greedy / GRASP / BRKGA
-maxExecTime          = 10;                      # Maximum execution time in seconds
+maxExecTime          = 120;                      # Maximum execution time in seconds
 verbose              = True;                    # Verbose mode?
 executionType        = Single;                  # Single : Single execution / Multiple: Multiple executions
 

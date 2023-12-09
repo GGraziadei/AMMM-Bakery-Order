@@ -24,7 +24,7 @@ class Main:
                 file_name = f'solutions/{self.config.instanceNum}.sol'
                 log_file = open(file_name, 'w')
 
-                #sys.stdout = log_file
+                sys.stdout = log_file
                 initialSolution = None
 
                 print('\n\n-------------------')
@@ -53,46 +53,43 @@ class Main:
                 solver = Solver_Greedy(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
-
-                print('\n\n-------------------')
-                for alpha in np.arange(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1):
-                    self.config.alpha = alpha
-                    fitness = 0.
-                    for i in range(3):
-                        print(f'ALPHA {alpha} execution {i}')
-                        solver = Solver_GRASP(self.config, instance)
-                        solution = solver.solve(solution=initialSolution)
-                        print('Solution (CPUid: [TasksId]): %s' % str(solution.getOrders()))
-                        writeStr = f'ALPHA {alpha} execution {i} fitness: {solution.getFitness()}\n\n'
-                        f.write(writeStr)
-                        fitness += solution.getFitness()
                 # GRASP
                 print('\n\n-------------------')
                 print('GRASP alpha=0.1 ')
                 self.config.solver = 'GRASP'
                 self.config.localSearch = False
-                self.config.alpha = 0.1
+                self.config.alpha = 0.3
                 self.config.solutionFile = f'solutions/GRASP_01_{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
                 print('\n\n-------------------')
                 print('GRASP alpha=0.1 LS : firstImprovement')
-                self.config.solver = 'Greedy'
+                self.config.solver = 'GRASP'
                 self.config.localSearch = True
                 self.config.policy = 'FirstImprovement'
-                self.config.alpha = 0.1
+                self.config.alpha = 0.3
                 self.config.solutionFile = f'solutions/GRASP_01_LS_first_{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
                 print('\n\n-------------------')
                 print('GRASP alpha=0.1 LS : BestImprovement')
-                self.config.solver = 'Greedy'
+                self.config.solver = 'GRASP'
                 self.config.localSearch = True
                 self.config.policy = 'BestImprovement'
-                self.config.alpha = 0.1
+                self.config.alpha = 0.3
                 self.config.solutionFile = f'solutions/GRASP_01_LS_best_{self.config.instanceNum}.sol'
+                solver = Solver_GRASP(self.config, instance)
+                solution = solver.solve(solution=initialSolution)
+
+                print('\n\n-------------------')
+                print('BRKGA')
+                self.config.solver = 'BRKGA'
+                self.config.localSearch = True
+                self.config.policy = 'BestImprovement'
+                self.config.alpha = 0.3
+                self.config.solutionFile = f'solutions/BRKGA{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
 
