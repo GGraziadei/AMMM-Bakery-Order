@@ -1,11 +1,11 @@
-instancesDirectory = ../ProjectHeuristics/data/benchmark;
-fileNamePrefix = e;
+instancesDirectory = ../ProjectHeuristics/benchmark/data;
+fileNamePrefix = instance_5;
 fileNameExtension = dat;
 numInstances = 1;
 
 # Bakery-specific settings
-numOrders = 232;  # Number of orders
-timeSlots = 288;  # Number of time slots in a day
+numOrders = 64;  # Number of orders
+timeSlots = 80;  # Number of time slots in a day
 surfaceCapacity = 16;  # Total surface capacity of the oven
 
 # Separate max and min values for order attributes
@@ -13,7 +13,7 @@ minProfit = 1;  # Minimum profit per order
 maxProfit = 50;  # Maximum profit per order
 
 minLength = 1;  # Minimum length per order in time slots
-maxLength = 58;  # Maximum length per order in time slots
+maxLength = 16;  # Maximum length per order in time slots
 
 minSurface = 1;  # Minimum surface required per order in m2
 maxSurface = 16;  # Maximum surface required per order in m2
@@ -21,4 +21,4 @@ maxSurface = 16;  # Maximum surface required per order in m2
 # Delivery time settings
 # Assuming delivery time should be within the timeSlots range
 minDeliver = 1;  # Minimum delivery time slot
-maxDeliver = 288;  # Maximum delivery time slot (same as total time slots)
+maxDeliver = 80;  # Maximum delivery time slot (same as total time slots)

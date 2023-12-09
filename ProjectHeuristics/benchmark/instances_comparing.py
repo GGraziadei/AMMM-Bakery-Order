@@ -116,7 +116,7 @@ if __name__ == '__main__':
     #ValidateConfig.validate(config)
 
     for i in range(5):
-        file_name = 'data/benchmark/data_'+str(i+1)+'.dat'
+        file_name = 'data/alpha_brute_force/data_'+str(i+1)+'.dat'
         config.inputDataFile = file_name
         config.instanceNum = i
         inputData = DATParser.parse(config.inputDataFile)
