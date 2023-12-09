@@ -1,7 +1,7 @@
-instancesDirectory = ../ProjectHeuristics/benchmark/data;
+instancesDirectory = ../ProjectHeuristics/data/multiple;
 fileNamePrefix = instance_5;
 fileNameExtension = dat;
-numInstances = 1;
+numInstances = 10;
 
 # Bakery-specific settings
 numOrders = 64;  # Number of orders

@@ -1,15 +1,15 @@
 # --- Common specific parameters ------------------------------------------------------------------------------
-inputDataFile        = data/example.dat;        # Input DAT file - Default Single execution
+inputDataFile        = data/instance_3_0.dat;        # Input DAT file - Default Single execution
 solutionFile         = solutions/exampleL.sol;   # Output DAT file (solution)
 solver               = Greedy;                  # Supported solvers: Greedy / GRASP / BRKGA
 maxExecTime          = 60;                      # Maximum execution time in seconds
 verbose              = True;                    # Verbose mode?
-executionType        = Single;                  # Single : Single execution / Multiple: Multiple executions
+executionType        = Multiple;                  # Single : Single execution / Multiple: Multiple executions
 
 # ---  Multiple execution running ---------------------------------------------------------------------
 numInstances         = 10;                      # Number of instances to run
-instancesDirectory   = data;                    # Directory where the instances are located
-instancesPrefix      = bakery_example_BRKGA;          # Prefix of the instances f"{fileNamePrefix}_{i}.dat"
+instancesDirectory   = data/multiple;                    # Directory where the instances are located
+instancesPrefix      = instance_5;          # Prefix of the instances f"{fileNamePrefix}_{i}.dat"
 
 # --- Greedy / Random specific parameters ---------------------------------------------------------------------
 # No specific parameters
