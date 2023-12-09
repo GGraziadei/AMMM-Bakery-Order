@@ -124,7 +124,8 @@ class BakerySchedulingSolution(_Solution):
         return True
 
     def optimal_function(self, t, s, length) -> int:
-        value = (self.timeSlotCapacity(t) - s) / self.timeSlotCapacity(t)
+        # -t is given by the idea to more priority to the first time slot available
+        value = (self.timeSlotCapacity(t) -s -t ) / (self.timeSlotCapacity(t))
         return int(value * 1e4) #determinism in the solution
 
     def timeslot_candidates(self, order) -> list[Candidate]:
