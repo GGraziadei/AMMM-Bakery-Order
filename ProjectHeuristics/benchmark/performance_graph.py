@@ -5,7 +5,7 @@ import numpy as np
 instances = [
     # Instance 0
     {
-        'name': 'Data Instance 1',
+        'name': 'Instance 1',
         'optimal': 824,
         'methods': [
             {'name': 'Greedy', 'obj_value': 735, 'time': 0.00191855},
@@ -18,7 +18,7 @@ instances = [
         ]
     },
     {
-        'name': 'Data Instance 2',
+        'name': 'Instance 2',
         'optimal': 662,
         'methods': [
             {'name': 'Greedy', 'obj_value': 543, 'time': 0.00109124},
@@ -31,7 +31,7 @@ instances = [
         ]
     },
     {
-        'name': 'Data Instance 3',
+        'name': 'Instance 3',
         'optimal': 913,
         'methods': [
             {'name': 'Greedy', 'obj_value': 736, 'time': 0.001979},
@@ -44,7 +44,7 @@ instances = [
         ]
     },
     {
-        'name': 'Data Instance 4',
+        'name': 'Instance 4',
         'optimal': 1012,
         'methods': [
             {'name': 'Greedy', 'obj_value': 806, 'time': 0.002},
@@ -58,23 +58,23 @@ instances = [
     },
     # Instance 4
     {
-        'name': 'Data Instance 5',
+        'name': 'Instance 5',
         'optimal': 999,
         'methods': [
-            {'name': 'Greedy', 'obj_value': 828, 'time': 0.00407314},
-            {'name': 'Greedy LS: firstImprovement', 'obj_value': 829, 'time': 0.01528311},
-            {'name': 'Greedy LS: BestImprovement', 'obj_value': 885, 'time': 0.91646671},
-            {'name': 'GRASP alpha=0.1', 'obj_value': 895, 'time': 120.00081158},
-            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 891, 'time': 120.02017570},
-            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 894, 'time': 120.03974319},
-            {'name': 'BRKGA', 'obj_value': 898, 'time': 120.18189049}
+            {'name': 'Greedy', 'obj_value': 828, 'time': 0.005},
+            {'name': 'Greedy LS: firstImprovement', 'obj_value': 829, 'time': 0.01211},
+            {'name': 'Greedy LS: BestImprovement', 'obj_value': 885, 'time': 0.9676},
+            {'name': 'GRASP alpha=0.1', 'obj_value': 908, 'time': 13.01},
+            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 891, 'time': 69.95},
+            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 905, 'time': 6.03974319},
+            {'name': 'BRKGA', 'obj_value': 960, 'time': 16.83}
         ]
     }
 ]
 
 # ILP optimal values and elapsed times for all instances
 ilp_optimal_values = [824, 662, 913, 1012, 999]
-ilp_elapsed_times = [15745.815890312, 22671.433958054, 617.157467842, 180.276755333, 963.182805061]
+ilp_elapsed_times = [15.745815890312, 22.671433958054, 60.717, 18.220, 1317.96]
 
 for i, instance in enumerate(instances):
     optimal_value = ilp_optimal_values[i]
