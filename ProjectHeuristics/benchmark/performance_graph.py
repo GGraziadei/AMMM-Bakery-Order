@@ -5,60 +5,60 @@ import numpy as np
 instances = [
     # Instance 0
     {
-        'name': 'Data Instance 0',
+        'name': 'Data Instance 1',
         'optimal': 824,
         'methods': [
             {'name': 'Greedy', 'obj_value': 735, 'time': 0.00191855},
             {'name': 'Greedy LS: firstImprovement', 'obj_value': 735, 'time': 0.09933352},
             {'name': 'Greedy LS: BestImprovement', 'obj_value': 735, 'time': 0.10286260},
-            {'name': 'GRASP alpha=0.1', 'obj_value': 783, 'time': 120.00069809},
-            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 781, 'time': 120.07974076},
-            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 791, 'time': 120.08511519},
-            {'name': 'BRKGA', 'obj_value': 773, 'time': 120.02955079}
+            {'name': 'GRASP alpha=0.1', 'obj_value': 781, 'time': 28.5474},
+            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 780, 'time': 14.2199},
+            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 791, 'time': 30.91},
+            {'name': 'BRKGA', 'obj_value': 793, 'time': 11.229}
         ]
     },
     {
-        'name': 'Data Instance 1',
+        'name': 'Data Instance 2',
         'optimal': 662,
         'methods': [
             {'name': 'Greedy', 'obj_value': 543, 'time': 0.00109124},
             {'name': 'Greedy LS: firstImprovement', 'obj_value': 545, 'time': 0.06707668},
             {'name': 'Greedy LS: BestImprovement', 'obj_value': 557, 'time': 0.47273946},
-            {'name': 'GRASP alpha=0.1', 'obj_value': 595, 'time': 99.28887272},
-            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 582, 'time': 120.02072215},
-            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 594, 'time': 120.10550594},
-            {'name': 'BRKGA', 'obj_value': 596, 'time': 120.09732056}
-        ]
-    },
-    {
-        'name': 'Data Instance 2',
-        'optimal': 913,
-        'methods': [
-            {'name': 'Greedy', 'obj_value': 736, 'time': 0.0},
-            {'name': 'Greedy LS: firstImprovement', 'obj_value': 764, 'time': 0.07319999},
-            {'name': 'Greedy LS: BestImprovement', 'obj_value': 764, 'time': 0.26090455},
-            {'name': 'GRASP alpha=0.1', 'obj_value': 844, 'time': 111.29277396},
-            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 827, 'time': 120.01162410},
-            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 837, 'time': 120.03413844},
-            {'name': 'BRKGA', 'obj_value': 837, 'time': 120.11023736}
+            {'name': 'GRASP alpha=0.1', 'obj_value': 595, 'time': 15.019},
+            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 591, 'time': 32.02072215},
+            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 599, 'time': 21.69},
+            {'name': 'BRKGA', 'obj_value': 639, 'time': 3.29}
         ]
     },
     {
         'name': 'Data Instance 3',
+        'optimal': 913,
+        'methods': [
+            {'name': 'Greedy', 'obj_value': 736, 'time': 0.001979},
+            {'name': 'Greedy LS: firstImprovement', 'obj_value': 764, 'time': 0.0847},
+            {'name': 'Greedy LS: BestImprovement', 'obj_value': 764, 'time': 0.2985},
+            {'name': 'GRASP alpha=0.1', 'obj_value': 842, 'time': 41.46},
+            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 842, 'time': 20.1878},
+            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 843, 'time': 96.2},
+            {'name': 'BRKGA', 'obj_value': 883, 'time': 10.507}
+        ]
+    },
+    {
+        'name': 'Data Instance 4',
         'optimal': 1012,
         'methods': [
-            {'name': 'Greedy', 'obj_value': 806, 'time': 0.0},
+            {'name': 'Greedy', 'obj_value': 806, 'time': 0.002},
             {'name': 'Greedy LS: firstImprovement', 'obj_value': 812, 'time': 0.02441907},
-            {'name': 'Greedy LS: BestImprovement', 'obj_value': 890, 'time': 0.82733464},
-            {'name': 'GRASP alpha=0.1', 'obj_value': 912, 'time': 120.00031161},
-            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 889, 'time': 120.15396905},
-            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 890, 'time': 120.20192242},
-            {'name': 'BRKGA', 'obj_value': 898, 'time': 120.09289813}
+            {'name': 'Greedy LS: BestImprovement', 'obj_value': 890, 'time': 0.885},
+            {'name': 'GRASP alpha=0.1', 'obj_value': 920, 'time': 92.66},
+            {'name': 'GRASP alpha=0.1 LS: firstImprovement', 'obj_value': 920, 'time': 92.66},
+            {'name': 'GRASP alpha=0.1 LS: BestImprovement', 'obj_value': 924, 'time': 114.10},
+            {'name': 'BRKGA', 'obj_value': 986, 'time': 21.40}
         ]
     },
     # Instance 4
     {
-        'name': 'Data Instance 4',
+        'name': 'Data Instance 5',
         'optimal': 999,
         'methods': [
             {'name': 'Greedy', 'obj_value': 828, 'time': 0.00407314},
