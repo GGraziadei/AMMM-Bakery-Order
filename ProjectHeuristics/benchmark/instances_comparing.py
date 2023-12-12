@@ -58,7 +58,7 @@ class Main:
                 print('GRASP alpha=0.1 ')
                 self.config.solver = 'GRASP'
                 self.config.localSearch = False
-                self.config.alpha = 0.3
+                self.config.alpha = 0.1
                 self.config.solutionFile = f'solutions/GRASP_01_{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
@@ -68,7 +68,7 @@ class Main:
                 self.config.solver = 'GRASP'
                 self.config.localSearch = True
                 self.config.policy = 'FirstImprovement'
-                self.config.alpha = 0.3
+                self.config.alpha = 0.1
                 self.config.solutionFile = f'solutions/GRASP_01_LS_first_{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
@@ -78,7 +78,7 @@ class Main:
                 self.config.solver = 'GRASP'
                 self.config.localSearch = True
                 self.config.policy = 'BestImprovement'
-                self.config.alpha = 0.3
+                self.config.alpha = 0.1
                 self.config.solutionFile = f'solutions/GRASP_01_LS_best_{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
@@ -88,7 +88,6 @@ class Main:
                 self.config.solver = 'BRKGA'
                 self.config.localSearch = True
                 self.config.policy = 'BestImprovement'
-                self.config.alpha = 0.3
                 self.config.solutionFile = f'solutions/BRKGA{self.config.instanceNum}.sol'
                 solver = Solver_GRASP(self.config, instance)
                 solution = solver.solve(solution=initialSolution)
@@ -116,7 +115,7 @@ if __name__ == '__main__':
     #ValidateConfig.validate(config)
 
     for i in range(5):
-        file_name = 'data/alpha_brute_force/data_'+str(i+1)+'.dat'
+        file_name = 'data/instance_'+str(i+1)+'.dat'
         config.inputDataFile = file_name
         config.instanceNum = i
         inputData = DATParser.parse(config.inputDataFile)
