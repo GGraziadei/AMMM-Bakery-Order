@@ -1,0 +1,30 @@
+# --- Common specific parameters ------------------------------------------------------------------------------
+inputDataFile        = data/instance_3.dat;        # Input DAT file - Default Single execution
+solutionFile         = solutions/exampleB.sol;   # Output DAT file (solution)
+solver               = BRKGA;                  # Supported solvers: Greedy / GRASP / BRKGA
+maxExecTime          = 120;                      # Maximum execution time in seconds
+verbose              = True;                    # Verbose mode?
+executionType        = Single;                  # Single : Single execution / Multiple: Multiple executions
+
+# ---  Multiple execution running ---------------------------------------------------------------------
+numInstances         = 10;                      # Number of instances to run
+instancesDirectory   = data/multiple;                    # Directory where the instances are located
+instancesPrefix      = instance_5;          # Prefix of the instances f"{fileNamePrefix}_{i}.dat"
+
+# --- Greedy / Random specific parameters ---------------------------------------------------------------------
+# No specific parameters
+
+# --- GRASP constructive specific parameters ------------------------------------------------------------------
+# Ignored if solver is not GRASP.
+alpha                = 0.2;                 # Alpha parameter for the GRASP solver.
+
+# --- Local Search specific parameters ------------------------------------------------------------------------
+localSearch          = True;                # Enable local search?
+policy               = BestImprovement;    # Supported Policies: FirstImprovement / BestImprovement
+
+# --- BRKGA specific parameters -------------------------------------------------------------------------------
+# Ignored if solver is not BRKGA.
+eliteProp                = 0.2;                   # Proportion of elite individuals in the population.
+mutantProp               = 0.15;                   # Proportion of mutant individuals in the population.
+inheritanceProb          = 0.7;                   # Probability of inherit a gene from the elite parent.
+IndividualsMultiplier    = 5.0;                   # Multiplier to compute the number of individuals

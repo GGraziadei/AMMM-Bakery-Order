@@ -1,0 +1,15 @@
+Instance: benchmark/0.dat
+Obj.value: 824
+Elapsed time: 15745.815890312
+Instance: benchmark/1.dat
+Obj.value: 662
+Elapsed time: 22671.433958054
+Instance: benchmark/2.dat
+Obj.value: 913
+Elapsed time: 60717.157467842
+Instance: benchmark/3.dat
+Obj.value: 1012
+Elapsed time: 18220.276755333
+Instance: benchmark/4.dat
+Obj.value: 999
+Elapsed time: 1317963.182805061
